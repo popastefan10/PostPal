@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<PostPalDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("PostPal")));
 builder.Services.AddControllers();
+builder.Services.AddRepositories();
 builder.Services.AddSeeders();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
