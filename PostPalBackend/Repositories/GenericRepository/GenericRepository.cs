@@ -5,64 +5,64 @@ using PostPalBackend.Models.Base;
 
 namespace PostPalBackend.Repositories.GenericRepository {
 	public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity {
-		protected readonly PostPalDbContext context;
-		protected readonly DbSet<TEntity> table;
+		protected readonly PostPalDbContext Context;
+		protected readonly DbSet<TEntity> Table;
 
 		public GenericRepository(PostPalDbContext context) {
-			this.context = context;
-			this.table = context.Set<TEntity>();
+			this.Context = context;
+			this.Table = context.Set<TEntity>();
 		}
 
 		public List<TEntity> GetAll() {
-			return this.table.ToList();
+			return this.Table.ToList();
 		}
 
 		public async Task<List<TEntity>> GetAllAsync() {
-			return await this.table.AsNoTracking().ToListAsync();
+			return await this.Table.AsNoTracking().ToListAsync();
 		}
 		public void Create(TEntity entity) {
-			this.table.Add(entity);
+			this.Table.Add(entity);
 		}
 
 		public async Task CreateAsync(TEntity entity) {
-			await this.table.AddAsync(entity);
+			await this.Table.AddAsync(entity);
 		}
 
 		public void CreateRange(IEnumerable<TEntity> entities) {
-			this.table.AddRange(entities);
+			this.Table.AddRange(entities);
 		}
 
 		public async Task CreateRangeAsync(IEnumerable<TEntity> entities) {
-			await this.table.AddRangeAsync(entities);
+			await this.Table.AddRangeAsync(entities);
 		}
 
 		public void Update(TEntity entity) {
-			this.table.Update(entity);
+			this.Table.Update(entity);
 		}
 
 		public void UpdateRange(IEnumerable<TEntity> entities) {
-			this.table.UpdateRange(entities);
+			this.Table.UpdateRange(entities);
 		}
 
 		public void Delete(TEntity entity) {
-			this.table.Remove(entity);
+			this.Table.Remove(entity);
 		}
 
 		public void DeleteRange(IEnumerable<TEntity> entities) {
-			this.table.RemoveRange(entities);
+			this.Table.RemoveRange(entities);
 		}
 
 		public TEntity? FindById(object id) {
-			return this.table.Find(id);
+			return this.Table.Find(id);
 		}
 
 		public async Task<TEntity?> FindByIdAsync(object id) {
-			return await this.table.FindAsync(id);
+			return await this.Table.FindAsync(id);
 		}
 
 		public bool Save() {
 			try {
-				return this.context.SaveChanges() > 0;
+				return this.Context.SaveChanges() > 0;
 			}
 			catch (SqlException ex) {
 				Console.WriteLine(ex);
@@ -73,7 +73,7 @@ namespace PostPalBackend.Repositories.GenericRepository {
 
 		public async Task<bool> SaveAsync() {
 			try {
-				return await this.context.SaveChangesAsync() > 0;
+				return await this.Context.SaveChangesAsync() > 0;
 			}
 			catch (SqlException ex) {
 				Console.WriteLine(ex);

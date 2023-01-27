@@ -7,7 +7,7 @@ namespace PostPalBackend.Repositories.UserRepository {
 		public UserRepository(PostPalDbContext context) : base(context) { }
 
 		public User? FindByUsername(string username) {
-			return this.table.FirstOrDefault(user => user.Username == username);
+			return this.Table.FirstOrDefault(user => user.Username == username);
 		}
 	}
 }
