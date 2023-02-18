@@ -5,19 +5,24 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace PostPalBackend.Helpers.Jwt {
-	public class JwtUtils : IJwtUtils {
+namespace PostPalBackend.Helpers.Jwt
+{
+	public class JwtUtils : IJwtUtils
+	{
 		public readonly AppSettings AppSettings;
 
-		public JwtUtils(IOptions<AppSettings> appSettings) {
+		public JwtUtils(IOptions<AppSettings> appSettings)
+		{
 			AppSettings = appSettings.Value;
 		}
 
-		public string GenerateJwtToken(User user) {
+		public string GenerateJwtToken(User user)
+		{
 			var tokenHandler = new JwtSecurityTokenHandler();
 			var secret = Encoding.ASCII.GetBytes(AppSettings.JwtSecret);
 
-			var tokenDescriptor = new SecurityTokenDescriptor {
+			var tokenDescriptor = new SecurityTokenDescriptor
+			{
 				Subject = new ClaimsIdentity(new[] {
 					new Claim("id", user.Id.ToString())
 				}),
@@ -30,13 +35,15 @@ namespace PostPalBackend.Helpers.Jwt {
 			return tokenHandler.WriteToken(token);
 		}
 
-		public Guid ValidateJwtToken(string? token) {
+		public Guid ValidateJwtToken(string? token)
+		{
 			if (token == null)
 				return Guid.Empty;
 
 			var tokenHandler = new JwtSecurityTokenHandler();
 			var secret = Encoding.ASCII.GetBytes(AppSettings.JwtSecret);
-			var validationParameters = new TokenValidationParameters {
+			var validationParameters = new TokenValidationParameters
+			{
 				ValidateIssuer = true,
 				ValidateIssuerSigningKey = true,
 				ValidateAudience = true,
@@ -45,7 +52,8 @@ namespace PostPalBackend.Helpers.Jwt {
 				ClockSkew = TimeSpan.Zero,
 			};
 
-			try {
+			try
+			{
 				tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
 
 				var jwtToken = (JwtSecurityToken)validatedToken;
@@ -55,7 +63,8 @@ namespace PostPalBackend.Helpers.Jwt {
 
 				return userId;
 			}
-			catch {
+			catch
+			{
 				return Guid.Empty;
 			}
 		}

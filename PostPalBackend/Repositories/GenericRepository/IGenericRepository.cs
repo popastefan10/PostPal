@@ -1,7 +1,9 @@
 ﻿using PostPalBackend.Models.Base;
 
-namespace PostPalBackend.Repositories.GenericRepository {
-	public interface IGenericRepository<TEntity> where TEntity : BaseEntity {
+namespace PostPalBackend.Repositories.GenericRepository
+{
+	public interface IGenericRepository<TEntity> where TEntity : BaseEntity
+	{
 		// Get
 		List<TEntity> GetAll();
 		Task<List<TEntity>> GetAllAsync();

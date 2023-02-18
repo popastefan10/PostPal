@@ -25,7 +25,8 @@ var app = builder.Build();
 SeedData(app);
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment()) {
+if (app.Environment.IsDevelopment())
+{
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
@@ -41,7 +42,8 @@ app.MapControllers();
 
 app.Run();
 
-void SeedData(IHost app) {
+void SeedData(IHost app)
+{
 	var serviceProvider = app.Services.GetService<IServiceScopeFactory>()?.CreateScope().ServiceProvider;
 
 	var usersSeeder = serviceProvider?.GetService<UsersSeeder>();

@@ -1,8 +1,10 @@
 ﻿using PostPalBackend.Models.Enums;
 using PostPalBackend.Models;
 
-namespace PostPalBackend.Models.DTOs.UserDTO {
-	public class UserResponseDTO {
+namespace PostPalBackend.Models.DTOs.UserDTO
+{
+	public class UserResponseDTO
+	{
 		public Guid Id { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
@@ -12,7 +14,8 @@ namespace PostPalBackend.Models.DTOs.UserDTO {
 
 		public string Token { get; set; }
 
-		public UserResponseDTO(User user, string token) {
+		public UserResponseDTO(User user, string token)
+		{
 			Id = user.Id;
 			FirstName = user.FirstName;
 			LastName = user.LastName;

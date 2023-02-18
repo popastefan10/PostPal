@@ -2,8 +2,10 @@
 using PostPalBackend.Models.Enums;
 using System.Text.Json.Serialization;
 
-namespace PostPalBackend.Models {
-	public class User : BaseEntity {
+namespace PostPalBackend.Models
+{
+	public class User : BaseEntity
+	{
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 

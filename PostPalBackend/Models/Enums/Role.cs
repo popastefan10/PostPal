@@ -1,5 +1,7 @@
-﻿namespace PostPalBackend.Models.Enums {
-	public enum Role {
+﻿namespace PostPalBackend.Models.Enums
+{
+	public enum Role
+	{
 		Admin,
 		User
 	}
