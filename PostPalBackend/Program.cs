@@ -2,6 +2,8 @@ using PostPalBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using PostPalBackend.Helpers.Seeders;
 using PostPalBackend.Helpers.Extensions;
+using PostPalBackend.Helpers;
+using PostPalBackend.Helpers.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,10 @@ builder.Services.AddDbContext<PostPalDbContext>(options => options.UseSqlServer(
 builder.Services.AddControllers();
 builder.Services.AddRepositories();
 builder.Services.AddSeeders();
+builder.Services.AddServices();
+builder.Services.AddUtils();
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -27,6 +33,9 @@ if (app.Environment.IsDevelopment()) {
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+// Custom middleware
+app.UseMiddleware<JwtMiddleware>();
 
 app.MapControllers();
 
