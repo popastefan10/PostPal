@@ -5,7 +5,8 @@ namespace PostPalBackend.Services.UserService
 {
 	public interface IUserService
 	{
-		UserResponseDTO? Authenticate(UserRequestDTO userRequest);
+		UserAuthResponseDTO? Authenticate(UserAuthRequestDTO userRequest);
 		User? GetById(Guid id);
+		List<User> GetAllUsers();
 	}
 }

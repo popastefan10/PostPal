@@ -12,8 +12,8 @@ using PostPalBackend.Data;
 namespace PostPalBackend.Migrations
 {
     [DbContext(typeof(PostPalDbContext))]
-    [Migration("20230126175802_AddUserRole")]
-    partial class AddUserRole
+    [Migration("20230728144148_InitDatabase")]
+    partial class InitDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,14 +43,6 @@ namespace PostPalBackend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -58,9 +50,8 @@ namespace PostPalBackend.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool?>("isBanned")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

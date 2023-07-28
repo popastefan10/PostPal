@@ -12,10 +12,5 @@ namespace PostPalBackend.Repositories.UserRepository
 		{
 			return this.Table.FirstOrDefault(user => user.Email == email);
 		}
-
-		public User? FindByUsername(string username)
-		{
-			return this.Table.FirstOrDefault(user => user.Username == username);
-		}
 	}
 }

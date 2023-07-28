@@ -14,7 +14,7 @@ namespace PostPalBackend.Helpers.Middleware
 
 		public async Task InvokeAsync(HttpContext httpContext, IJwtUtils jwtUtils, IUserService userService)
 		{
-			var token = httpContext.Request.Headers.Authorization.FirstOrDefault()?.Split("").Last();
+			var token = httpContext.Request.Headers.Authorization.FirstOrDefault()?.Split(" ").Last();
 			var userId = jwtUtils.ValidateJwtToken(token);
 
 			if (userId != Guid.Empty)

@@ -17,7 +17,7 @@ namespace PostPalBackend.Services.UserService
 			_jwtUtils = jwtUtils;
 		}
 
-		public UserResponseDTO? Authenticate(UserRequestDTO userRequest)
+		public UserAuthResponseDTO? Authenticate(UserAuthRequestDTO userRequest)
 		{
 			var user = _userRepository.FindByEmail(userRequest.Email);
 			if (user == null || !BCryptNet.Verify(userRequest.Password, user.PasswordHash))
@@ -26,12 +26,17 @@ namespace PostPalBackend.Services.UserService
 			}
 			var token = _jwtUtils.GenerateJwtToken(user);
 
-			return new UserResponseDTO(user, token);
+			return new UserAuthResponseDTO(user, token);
 		}
 
 		public User? GetById(Guid id)
 		{
 			return this._userRepository.FindById(id);
+		}
+
+		public List<User> GetAllUsers()
+		{
+			return this._userRepository.GetAll();
 		}
 	}
 }

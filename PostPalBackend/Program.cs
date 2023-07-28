@@ -1,9 +1,10 @@
-using PostPalBackend.Data;
 using Microsoft.EntityFrameworkCore;
-using PostPalBackend.Helpers.Seeders;
-using PostPalBackend.Helpers.Extensions;
+using Microsoft.OpenApi.Models;
+using PostPalBackend.Data;
 using PostPalBackend.Helpers;
+using PostPalBackend.Helpers.Extensions;
 using PostPalBackend.Helpers.Middleware;
+using PostPalBackend.Helpers.Seeders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,33 @@ builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSet
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+	options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+	{
+		In = ParameterLocation.Header,
+		Description = "Please enter JWT token",
+		Name = "Authorization",
+		Type = SecuritySchemeType.Http,
+		BearerFormat = "JWT",
+		Scheme = "bearer"
+	});
+
+	options.AddSecurityRequirement(new OpenApiSecurityRequirement
+	{
+		{
+			new OpenApiSecurityScheme
+			{
+				Reference = new OpenApiReference
+				{
+					Type=ReferenceType.SecurityScheme,
+					Id="Bearer"
+				}
+			},
+			new string[]{}
+		}
+	});
+});
 
 var app = builder.Build();
 

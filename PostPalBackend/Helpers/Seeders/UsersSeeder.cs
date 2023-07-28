@@ -20,10 +20,7 @@ namespace PostPalBackend.Helpers.Seeders
 			{
 				var SuperAdmin = new User
 				{
-					FirstName = "Admin",
-					LastName = "Admin",
-					Email = "adminPostPal@gmail.com",
-					Username = "admin",
+					Email = "admin@gmail.com",
 					Role = Role.Admin,
 					PasswordHash = BCryptNet.HashPassword("admin1234")
 				};

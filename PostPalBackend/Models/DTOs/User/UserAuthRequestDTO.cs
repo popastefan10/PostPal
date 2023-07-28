@@ -2,7 +2,7 @@
 
 namespace PostPalBackend.Models.DTOs.UserDTO
 {
-	public class UserRequestDTO
+	public class UserAuthRequestDTO
 	{
 		[Required]
 		public string Email { get; set; }
@@ -10,7 +10,7 @@ namespace PostPalBackend.Models.DTOs.UserDTO
 		[Required]
 		public string Password { get; set; }
 
-		public UserRequestDTO(string email, string password)
+		public UserAuthRequestDTO(string email, string password)
 		{
 			Email = email;
 			Password = password;

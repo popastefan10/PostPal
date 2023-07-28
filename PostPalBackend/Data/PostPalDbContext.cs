@@ -9,12 +9,15 @@ namespace PostPalBackend.Data
 
 		public PostPalDbContext(DbContextOptions<PostPalDbContext> options) : base(options)
 		{
-			System.Console.WriteLine("Context options: {0}", options);
 		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
+
+			modelBuilder.Entity<User>()
+				.Property(x => x.DateCreated)
+				.HasDefaultValueSql("getdate()");
 		}
 	}
 }

@@ -44,9 +44,9 @@ namespace PostPalBackend.Helpers.Jwt
 			var secret = Encoding.ASCII.GetBytes(AppSettings.JwtSecret);
 			var validationParameters = new TokenValidationParameters
 			{
-				ValidateIssuer = true,
+				ValidateIssuer = false,
 				ValidateIssuerSigningKey = true,
-				ValidateAudience = true,
+				ValidateAudience = false,
 				ValidateLifetime = true,
 				IssuerSigningKey = new SymmetricSecurityKey(secret),
 				ClockSkew = TimeSpan.Zero,

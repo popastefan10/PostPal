@@ -12,8 +12,8 @@ using PostPalBackend.Data;
 namespace PostPalBackend.Migrations
 {
     [DbContext(typeof(PostPalDbContext))]
-    [Migration("20230123123644_InitDatabase")]
-    partial class InitDatabase
+    [Migration("20230728150323_UsersDateFieldsGeneration")]
+    partial class UsersDateFieldsGeneration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,7 +33,8 @@ namespace PostPalBackend.Migrations
 
                     b.Property<DateTime?>("DateCreated")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<DateTime?>("DateModified")
                         .ValueGeneratedOnAddOrUpdate()
@@ -43,21 +44,15 @@ namespace PostPalBackend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("isBanned")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
