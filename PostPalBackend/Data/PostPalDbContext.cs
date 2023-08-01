@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PostPalBackend.Models;
+using PostPalBackend.Models.Enums;
 
 namespace PostPalBackend.Data
 {
@@ -18,6 +19,9 @@ namespace PostPalBackend.Data
 			modelBuilder.Entity<User>()
 				.Property(x => x.DateCreated)
 				.HasDefaultValueSql("getdate()");
+			modelBuilder.Entity<User>()
+				.Property(x => x.Role)
+				.HasDefaultValue(Role.User);
 		}
 	}
 }

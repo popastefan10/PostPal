@@ -1,8 +1,10 @@
-﻿using BCryptNet = BCrypt.Net.BCrypt;
-using PostPalBackend.Models.DTOs.UserDTO;
-using PostPalBackend.Repositories.UserRepository;
-using PostPalBackend.Models;
+﻿using AutoMapper;
 using PostPalBackend.Helpers.Jwt;
+using PostPalBackend.Models;
+using PostPalBackend.Models.DTOs.UserDTO;
+using PostPalBackend.Models.DTOs.UserDTOs;
+using PostPalBackend.Repositories.UserRepository;
+using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace PostPalBackend.Services.UserService
 {
@@ -10,17 +12,35 @@ namespace PostPalBackend.Services.UserService
 	{
 		private readonly IUserRepository _userRepository;
 		private readonly IJwtUtils _jwtUtils;
+		private readonly IMapper _mapper;
 
-		public UserService(IUserRepository userRepository, IJwtUtils jwtUtils)
+		public UserService(IUserRepository userRepository, IJwtUtils jwtUtils, IMapper mapper)
 		{
 			_userRepository = userRepository;
 			_jwtUtils = jwtUtils;
+			_mapper = mapper;
 		}
 
-		public UserAuthResponseDTO? Authenticate(UserAuthRequestDTO userRequest)
+		public UserRegisterResponseDTO? Register(UserRegisterRequestDTO requestDTO)
 		{
-			var user = _userRepository.FindByEmail(userRequest.Email);
-			if (user == null || !BCryptNet.Verify(userRequest.Password, user.PasswordHash))
+			var user = _mapper.Map<User>(requestDTO);
+			if (user == null)
+			{
+				return null;
+			}
+			_userRepository.Create(user);
+			_userRepository.Save();
+
+			var response = _mapper.Map<UserRegisterResponseDTO>(user);
+			response.Token = _jwtUtils.GenerateJwtToken(user);
+
+			return response;
+		}
+
+		public UserAuthResponseDTO? Authenticate(UserAuthRequestDTO requestDTO)
+		{
+			var user = _userRepository.FindByEmail(requestDTO.Email);
+			if (user == null || !BCryptNet.Verify(requestDTO.Password, user.PasswordHash))
 			{
 				return null;
 			}
