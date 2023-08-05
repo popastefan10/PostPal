@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using PostPalBackend.Helpers.Exceptions;
 using PostPalBackend.Helpers.Jwt;
 using PostPalBackend.Models;
 using PostPalBackend.Models.DTOs.UserDTO;
@@ -44,9 +45,29 @@ namespace PostPalBackend.Services.UserService
 			{
 				return null;
 			}
+			if (user.isBanned == true)
+			{
+				throw new ProjectException(ProjectStatusCodes.UserBanned, "Cannot login into a banned account.");
+			}
 			var token = _jwtUtils.GenerateJwtToken(user);
 
 			return new UserAuthResponseDTO(user, token);
+		}
+
+		public User Ban(User user)
+		{
+			user.isBanned = true;
+			_userRepository.Save();
+
+			return user;
+		}
+
+		public User RemoveBan(User user)
+		{
+			user.isBanned = false;
+			_userRepository.Save();
+
+			return user;
 		}
 
 		public User? GetById(Guid id)

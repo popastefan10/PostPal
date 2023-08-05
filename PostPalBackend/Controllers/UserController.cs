@@ -37,11 +37,38 @@ namespace PostPalBackend.Controllers
 			var userResponse = _userService.Authenticate(userRequest);
 			if (userResponse == null)
 			{
-				return new BadRequestObjectResult("Username or password is invalid!");
+				return new BadRequestObjectResult("Username or password is invalid.");
 			}
 
 			return Ok(userResponse);
 		}
+
+		[HttpPost("{userId}/ban")]
+		[Authorization(Role.Admin)]
+		public IActionResult Ban([FromRoute] Guid userId)
+		{
+			var user = _userService.GetById(userId);
+			if (user == null)
+			{
+				return NotFound("User not found.");
+			}
+
+			return Ok(_userService.Ban(user));
+		}
+
+		[HttpPost("{userId}/remove-ban")]
+		[Authorization(Role.Admin)]
+		public IActionResult RemoveBan([FromRoute] Guid userId)
+		{
+			var user = _userService.GetById(userId);
+			if (user == null)
+			{
+				return NotFound("User not found.");
+			}
+
+			return Ok(_userService.RemoveBan(user));
+		}
+
 
 		[HttpGet()]
 		[Authorization(Role.Admin)]

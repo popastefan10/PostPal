@@ -16,6 +16,10 @@ namespace PostPalBackend.Data
 		{
 			base.OnModelCreating(modelBuilder);
 
+			modelBuilder.Entity<User>(user =>
+			{
+				user.ToTable(tb => tb.HasTrigger("Users_UPDATE"));
+			});
 			modelBuilder.Entity<User>()
 				.Property(x => x.DateCreated)
 				.HasDefaultValueSql("getdate()");
