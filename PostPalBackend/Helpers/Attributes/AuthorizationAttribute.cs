@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using PostPalBackend.Helpers.Exceptions;
 using PostPalBackend.Models;
 using PostPalBackend.Models.Enums;
 
@@ -16,19 +17,18 @@ namespace PostPalBackend.Helpers.Attributes
 
 		public void OnAuthorization(AuthorizationFilterContext context)
 		{
-			var unauthorizedStatusObject = new JsonResult(new { Message = "Unauthorized" })
-			{ StatusCode = StatusCodes.Status401Unauthorized };
+			var unauthorizedResultObject = new JsonResult(new ExceptionResponse(ProjectStatusCodes.Code.Http401, "Unauthorized.")) { StatusCode = StatusCodes.Status401Unauthorized };
 
 			if (_roles == null)
 			{
-				context.Result = unauthorizedStatusObject;
+				context.Result = unauthorizedResultObject;
 			}
 			else
 			{
 				User? user = context.HttpContext.Items["User"] as User;
 				if (user == null || !_roles.Contains(user.Role))
 				{
-					context.Result = unauthorizedStatusObject;
+					context.Result = unauthorizedResultObject;
 				}
 			}
 

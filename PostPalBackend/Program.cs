@@ -64,6 +64,7 @@ app.UseAuthorization();
 
 // Custom middleware
 app.UseMiddleware<JwtMiddleware>();
+app.ConfigureExceptionHandler();
 
 app.MapControllers();
 
