@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PostPalBackend.Helpers.Attributes;
+using PostPalBackend.Helpers.Exceptions;
 using PostPalBackend.Models;
 using PostPalBackend.Models.DTOs.UserDTO;
 using PostPalBackend.Models.DTOs.UserDTOs;
@@ -72,9 +73,45 @@ namespace PostPalBackend.Controllers
 
 		[HttpGet()]
 		[Authorization(Role.Admin)]
-		public List<User> All()
+		public List<User> GetAll()
 		{
 			return _userService.GetAllUsers();
+		}
+
+		[HttpGet("{userId}")]
+		[Authorization(Role.User, Role.Admin)]
+		public User GetById([FromRoute] Guid userId)
+		{
+			var user = _userService.GetById(userId);
+			if (user == null)
+			{
+				throw new ProjectException(ProjectStatusCodes.Http404NotFound, "User not found.");
+			}
+
+			return user;
+		}
+
+		[HttpPatch("{userId}")]
+		[Authorization(Role.User, Role.Admin)]
+		public User Update([FromRoute] Guid userId, UserUpdateDTO dto)
+		{
+			return this._userService.Update(userId, dto);
+		}
+
+		[HttpDelete("me")]
+		[Authorization(Role.User, Role.Admin)]
+		public User DeleteMe()
+		{
+			var user = this.HttpContext.Items["User"] as User;
+
+			return this._userService.Delete(user.Id);
+		}
+
+		[HttpDelete("{userId}")]
+		[Authorization(Role.Admin)]
+		public User Delete([FromRoute] Guid userId)
+		{
+			return this._userService.Delete(userId);
 		}
 	}
 }

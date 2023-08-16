@@ -12,5 +12,7 @@ namespace PostPalBackend.Services.UserService
 		User RemoveBan(User user);
 		User? GetById(Guid id);
 		List<User> GetAllUsers();
+		User Update(Guid id, UserUpdateDTO dto);
+		User Delete(Guid id);
 	}
 }

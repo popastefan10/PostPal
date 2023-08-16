@@ -1,5 +1,4 @@
 ﻿using PostPalBackend.Models.Enums;
-using PostPalBackend.Models;
 
 namespace PostPalBackend.Models.DTOs.UserDTO
 {
@@ -8,7 +7,6 @@ namespace PostPalBackend.Models.DTOs.UserDTO
 		public Guid Id { get; set; }
 		public string Email { get; set; }
 		public Role Role { get; set; }
-
 		public string Token { get; set; }
 
 		public UserAuthResponseDTO(User user, string token)

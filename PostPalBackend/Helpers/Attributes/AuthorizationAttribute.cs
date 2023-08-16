@@ -17,7 +17,7 @@ namespace PostPalBackend.Helpers.Attributes
 
 		public void OnAuthorization(AuthorizationFilterContext context)
 		{
-			var unauthorizedResultObject = new JsonResult(new ExceptionResponse(ProjectStatusCodes.Code.Http401, "Unauthorized.")) { StatusCode = StatusCodes.Status401Unauthorized };
+			var unauthorizedResultObject = new JsonResult(new ExceptionResponse(ProjectStatusCodes.Code.Http401Unauthorized, "Unauthorized.")) { StatusCode = StatusCodes.Status401Unauthorized };
 
 			if (_roles == null)
 			{

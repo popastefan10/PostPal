@@ -4,6 +4,7 @@ using PostPalBackend.Helpers.Jwt;
 using PostPalBackend.Models;
 using PostPalBackend.Models.DTOs.UserDTO;
 using PostPalBackend.Models.DTOs.UserDTOs;
+using PostPalBackend.Models.Enums;
 using PostPalBackend.Repositories.UserRepository;
 using BCryptNet = BCrypt.Net.BCrypt;
 
@@ -78,6 +79,42 @@ namespace PostPalBackend.Services.UserService
 		public List<User> GetAllUsers()
 		{
 			return this._userRepository.GetAll();
+		}
+
+		public User Update(Guid id, UserUpdateDTO dto)
+		{
+			var user = this._userRepository.FindById(id);
+			if (user == null)
+			{
+				throw new ProjectException(ProjectStatusCodes.Http404NotFound, "User not found.");
+			}
+
+			if (dto.Email != null)
+			{
+				user.Email = dto.Email;
+			}
+			if (dto.Role != null)
+			{
+				user.Role = (Role)dto.Role;
+			}
+			this._userRepository.Update(user);
+			this._userRepository.Save();
+
+			return user;
+		}
+
+		public User Delete(Guid id)
+		{
+			var user = this._userRepository.FindById(id);
+			if (user == null)
+			{
+				throw new ProjectException(ProjectStatusCodes.Http404NotFound, "User not found.");
+			}
+
+			this._userRepository.Delete(user);
+			this._userRepository.Save();
+
+			return user;
 		}
 	}
 }

@@ -55,7 +55,10 @@ SeedData(app);
 if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
-	app.UseSwaggerUI();
+	app.UseSwaggerUI(c =>
+	{
+		c.EnablePersistAuthorization();
+	});
 }
 
 app.UseHttpsRedirection();
