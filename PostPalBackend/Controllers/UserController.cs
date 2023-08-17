@@ -93,7 +93,7 @@ namespace PostPalBackend.Controllers
 
 		[HttpPatch("{userId}")]
 		[Authorization(Role.User, Role.Admin)]
-		public User Update([FromRoute] Guid userId, UserUpdateDTO dto)
+		public User Update([FromRoute] Guid userId, [FromBody] UserUpdateDTO dto)
 		{
 			return this._userService.Update(userId, dto);
 		}

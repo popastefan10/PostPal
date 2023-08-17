@@ -1,12 +1,8 @@
-﻿using PostPalBackend.Models.Base;
-
-namespace PostPalBackend.Models
+﻿namespace PostPalBackend.Models.DTOs.ProfileDTOs
 {
-	public class Profile : BaseEntity
+	public class ProfileCreateDTO
 	{
 		public Guid UserId { get; set; }
-
-		public User User { get; set; }
 
 		public string FirstName { get; set; }
 

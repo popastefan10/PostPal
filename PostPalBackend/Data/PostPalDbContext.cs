@@ -8,7 +8,7 @@ namespace PostPalBackend.Data
 	{
 		public DbSet<User> Users { get; set; }
 
-		public DbSet<Profile> Profiles { get; set; }
+		public DbSet<UserProfile> Profiles { get; set; }
 
 		public PostPalDbContext(DbContextOptions<PostPalDbContext> options) : base(options)
 		{
@@ -29,17 +29,17 @@ namespace PostPalBackend.Data
 				.Property(x => x.Role)
 				.HasDefaultValue(Role.User);
 
-			modelBuilder.Entity<Profile>(profile =>
+			modelBuilder.Entity<UserProfile>(profile =>
 			{
 				profile.ToTable(tb => tb.HasTrigger("Profiles_UPDATE"));
 			});
-			modelBuilder.Entity<Profile>()
+			modelBuilder.Entity<UserProfile>()
 				.Property(x => x.DateCreated)
 				.HasDefaultValueSql("getdate()");
-			modelBuilder.Entity<Profile>()
+			modelBuilder.Entity<UserProfile>()
 				.HasOne(e => e.User)
 				.WithOne()
-				.HasForeignKey<Profile>(e => e.UserId)
+				.HasForeignKey<UserProfile>(e => e.UserId)
 				.IsRequired();
 		}
 	}

@@ -58,7 +58,7 @@ namespace PostPalBackend.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Profiles");
+                    b.ToTable("Profiles", (string)null);
                 });
 
             modelBuilder.Entity("PostPalBackend.Models.User", b =>
@@ -96,7 +96,7 @@ namespace PostPalBackend.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users", t =>
+                    b.ToTable("Users", null, t =>
                         {
                             t.HasTrigger("Users_UPDATE");
                         });

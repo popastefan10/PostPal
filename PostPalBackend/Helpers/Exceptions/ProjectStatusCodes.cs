@@ -6,6 +6,9 @@ namespace PostPalBackend.Helpers.Exceptions
 	{
 		public enum Code
 		{
+			[HttpStatusCode(StatusCodes.Status400BadRequest)]
+			Http400BadRequest,
+
 			[HttpStatusCode(StatusCodes.Status401Unauthorized)]
 			Http401Unauthorized,
 
@@ -16,8 +19,13 @@ namespace PostPalBackend.Helpers.Exceptions
 			Http500InternalServerError,
 
 			[HttpStatusCode(StatusCodes.Status403Forbidden)]
-			UserBanned
+			UserBanned,
+
+			[HttpStatusCode(StatusCodes.Status400BadRequest)]
+			UserAlreadyHasProfile
 		}
+
+		public const Code Http400BadRequest = Code.Http400BadRequest;
 
 		public const Code Http401Unauthorized = Code.Http401Unauthorized;
 
@@ -26,6 +34,8 @@ namespace PostPalBackend.Helpers.Exceptions
 		public const Code Http500InternalServerError = Code.Http500InternalServerError;
 
 		public const Code UserBanned = Code.UserBanned;
+
+		public const Code UserAlreadyHasProfile = Code.UserAlreadyHasProfile;
 
 		public static int GetHttpStatusCode(Code code)
 		{
