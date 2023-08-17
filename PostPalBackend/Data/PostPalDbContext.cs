@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PostPalBackend.Models;
 using PostPalBackend.Models.Enums;
+using System.Text.Json;
 
 namespace PostPalBackend.Data
 {
@@ -9,6 +11,8 @@ namespace PostPalBackend.Data
 		public DbSet<User> Users { get; set; }
 
 		public DbSet<UserProfile> Profiles { get; set; }
+
+		public DbSet<Post> Posts { get; set; }
 
 		public PostPalDbContext(DbContextOptions<PostPalDbContext> options) : base(options)
 		{
@@ -41,6 +45,28 @@ namespace PostPalBackend.Data
 				.WithOne()
 				.HasForeignKey<UserProfile>(e => e.UserId)
 				.IsRequired();
+
+			modelBuilder.Entity<Post>(post =>
+			{
+				post.ToTable(tb => tb.HasTrigger("Posts_UPDATE"));
+			});
+			modelBuilder.Entity<Post>()
+				.Property(x => x.DateCreated)
+				.HasDefaultValueSql("getdate()");
+			modelBuilder.Entity<Post>()
+				.HasOne(e => e.Profile)
+				.WithMany()
+				.HasForeignKey(e => e.ProfileId)
+				.IsRequired();
+			modelBuilder.Entity<Post>()
+				.Property(x => x.ImagesUrls)
+				.HasConversion(
+					v => JsonSerializer.Serialize(v, new JsonSerializerOptions { WriteIndented = true }),
+					v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions)null),
+					new ValueComparer<List<string>>(
+						(c1, c2) => c1.SequenceEqual(c2),
+						c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+						c => c.ToList()));
 		}
 	}
 }
