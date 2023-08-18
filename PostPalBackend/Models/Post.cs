@@ -15,5 +15,7 @@ namespace PostPalBackend.Models
 		public List<PostLike> PostLikes { get; set; } = null!;
 
 		public List<User> PostLikesUsers { get; set; } = null!;
+
+		public List<Comment> PostComments { get; set; } = null!;
 	}
 }

@@ -16,6 +16,8 @@ namespace PostPalBackend.Data
 
 		public DbSet<PostLike> PostLikes { get; set; }
 
+		public DbSet<Comment> Comments { get; set; }
+
 		public PostPalDbContext(DbContextOptions<PostPalDbContext> options) : base(options)
 		{
 		}
@@ -70,11 +72,30 @@ namespace PostPalBackend.Data
 						c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
 						c => c.ToList()));
 			modelBuilder.Entity<Post>()
-				.HasMany<User>(e => e.PostLikesUsers)
+				.HasMany(e => e.PostLikesUsers)
 				.WithMany()
 				.UsingEntity<PostLike>(
 					l => l.HasOne<User>().WithMany().HasForeignKey(e => e.UserId).OnDelete(DeleteBehavior.Restrict),
 					r => r.HasOne<Post>().WithMany(e => e.PostLikes).HasForeignKey(e => e.PostId).OnDelete(deleteBehavior: DeleteBehavior.Cascade));
+
+			modelBuilder.Entity<Comment>(comment =>
+			{
+				comment.ToTable(tb => tb.HasTrigger("Comments_UPDATE"));
+			});
+			modelBuilder.Entity<Comment>()
+				.Property(comment => comment.DateCreated)
+				.HasDefaultValueSql("getdate()");
+			modelBuilder.Entity<Comment>()
+				.HasOne<Post>()
+				.WithMany(post => post.PostComments)
+				.HasForeignKey(e => e.PostId)
+				.IsRequired();
+			modelBuilder.Entity<Comment>()
+				.HasOne(comment => comment.User)
+				.WithMany()
+				.HasForeignKey(e => e.UserId)
+				.OnDelete(DeleteBehavior.Restrict)
+				.IsRequired();
 		}
 	}
 }
