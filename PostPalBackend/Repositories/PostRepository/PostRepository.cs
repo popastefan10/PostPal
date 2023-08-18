@@ -13,7 +13,7 @@ namespace PostPalBackend.Repositories.PostRepository
 
 		public Post? FindByIdIncludeNavigationProperties(Guid id)
 		{
-			return this.Table.Include(post => post.Profile).Where(post => post.Id == id).FirstOrDefault();
+			return this.Table.Include(post => post.User).Where(post => post.Id == id).FirstOrDefault();
 		}
 	}
 }

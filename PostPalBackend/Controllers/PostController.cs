@@ -26,7 +26,9 @@ namespace PostPalBackend.Controllers
 		[Authorization(Role.User, Role.Admin)]
 		public PostResponseDTO Create(PostCreateDTO dto)
 		{
-			return _mapper.Map<PostResponseDTO>(_postService.Create(dto));
+			var user = this.GetUserFromHttpContext();
+
+			return _mapper.Map<PostResponseDTO>(_postService.Create(dto, user.Id));
 		}
 
 		[HttpGet("")]
@@ -57,7 +59,7 @@ namespace PostPalBackend.Controllers
 				throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Post not found.");
 			}
 			var user = this.GetUserFromHttpContext();
-			if (post.Profile.UserId != user.Id)
+			if (post.User.Id != user.Id)
 			{
 				throw new ProjectException(ProjectStatusCodes.Http403Forbidden, "You are not the creator of this post.");
 			}
@@ -76,7 +78,7 @@ namespace PostPalBackend.Controllers
 				throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Post not found.");
 			}
 			var user = this.GetUserFromHttpContext();
-			if (user.Role == Role.User && post.Profile.UserId != user.Id)
+			if (user.Role == Role.User && post.User.Id != user.Id)
 			{
 				throw new ProjectException(ProjectStatusCodes.Http403Forbidden, "You are not the creator of this post.");
 			}

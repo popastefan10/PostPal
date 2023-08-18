@@ -5,11 +5,11 @@ namespace PostPalBackend.Services.PostService
 {
 	public interface IPostService
 	{
-		Post Create(PostCreateDTO dto);
+		Post Create(PostCreateDTO dto, Guid userId);
 
 		List<Post> GetAll();
 
-		List<Post> GetAllByProfileId(Guid userId);
+		List<Post> GetAllByUserId(Guid userId);
 
 		Post? GetById(Guid id, bool includeProperties = false);
 

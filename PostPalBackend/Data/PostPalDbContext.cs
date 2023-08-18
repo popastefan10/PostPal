@@ -6,67 +6,67 @@ using System.Text.Json;
 
 namespace PostPalBackend.Data
 {
-    public class PostPalDbContext : DbContext
-    {
-        public DbSet<User> Users { get; set; }
+	public class PostPalDbContext : DbContext
+	{
+		public DbSet<User> Users { get; set; }
 
-        public DbSet<UserProfile> Profiles { get; set; }
+		public DbSet<UserProfile> Profiles { get; set; }
 
-        public DbSet<Post> Posts { get; set; }
+		public DbSet<Post> Posts { get; set; }
 
-        public PostPalDbContext(DbContextOptions<PostPalDbContext> options) : base(options)
-        {
-        }
+		public PostPalDbContext(DbContextOptions<PostPalDbContext> options) : base(options)
+		{
+		}
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>(user =>
-            {
-                user.ToTable(tb => tb.HasTrigger("Users_UPDATE"));
-            });
-            modelBuilder.Entity<User>()
-                .Property(x => x.DateCreated)
-                .HasDefaultValueSql("getdate()");
-            modelBuilder.Entity<User>()
-                .Property(x => x.Role)
-                .HasDefaultValue(Role.User);
+			modelBuilder.Entity<User>(user =>
+			{
+				user.ToTable(tb => tb.HasTrigger("Users_UPDATE"));
+			});
+			modelBuilder.Entity<User>()
+				.Property(x => x.DateCreated)
+				.HasDefaultValueSql("getdate()");
+			modelBuilder.Entity<User>()
+				.Property(x => x.Role)
+				.HasDefaultValue(Role.User);
 
-            modelBuilder.Entity<UserProfile>(profile =>
-            {
-                profile.ToTable(tb => tb.HasTrigger("Profiles_UPDATE"));
-            });
-            modelBuilder.Entity<UserProfile>()
-                .Property(x => x.DateCreated)
-                .HasDefaultValueSql("getdate()");
-            modelBuilder.Entity<UserProfile>()
-                .HasOne(e => e.User)
-                .WithOne()
-                .HasForeignKey<UserProfile>(e => e.UserId)
-                .IsRequired();
+			modelBuilder.Entity<UserProfile>(profile =>
+			{
+				profile.ToTable(tb => tb.HasTrigger("Profiles_UPDATE"));
+			});
+			modelBuilder.Entity<UserProfile>()
+				.Property(x => x.DateCreated)
+				.HasDefaultValueSql("getdate()");
+			modelBuilder.Entity<UserProfile>()
+				.HasOne(e => e.User)
+				.WithOne()
+				.HasForeignKey<UserProfile>(e => e.UserId)
+				.IsRequired();
 
-            modelBuilder.Entity<Post>(post =>
-            {
-                post.ToTable(tb => tb.HasTrigger("Posts_UPDATE"));
-            });
-            modelBuilder.Entity<Post>()
-                .Property(x => x.DateCreated)
-                .HasDefaultValueSql("getdate()");
-            modelBuilder.Entity<Post>()
-                .HasOne(e => e.Profile)
-                .WithMany()
-                .HasForeignKey(e => e.ProfileId)
-                .IsRequired();
-            modelBuilder.Entity<Post>()
-                .Property(x => x.ImagesUrls)
-                .HasConversion(
-                    v => JsonSerializer.Serialize(v, new JsonSerializerOptions { WriteIndented = true }),
-                    v => JsonSerializer.Deserialize<List<string>>(v, null as JsonSerializerOptions)!,
-                    new ValueComparer<List<string>>(
-                        (c1, c2) => c1!.SequenceEqual(c2!),
-                        c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
-                        c => c.ToList()));
-        }
-    }
+			modelBuilder.Entity<Post>(post =>
+			{
+				post.ToTable(tb => tb.HasTrigger("Posts_UPDATE"));
+			});
+			modelBuilder.Entity<Post>()
+				.Property(x => x.DateCreated)
+				.HasDefaultValueSql("getdate()");
+			modelBuilder.Entity<Post>()
+				.HasOne(e => e.User)
+				.WithMany()
+				.HasForeignKey(e => e.UserId)
+				.IsRequired();
+			modelBuilder.Entity<Post>()
+				.Property(x => x.ImagesUrls)
+				.HasConversion(
+					v => JsonSerializer.Serialize(v, new JsonSerializerOptions { WriteIndented = true }),
+					v => JsonSerializer.Deserialize<List<string>>(v, null as JsonSerializerOptions)!,
+					new ValueComparer<List<string>>(
+						(c1, c2) => c1!.SequenceEqual(c2!),
+						c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+						c => c.ToList()));
+		}
+	}
 }

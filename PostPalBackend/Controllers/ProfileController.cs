@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PostPalBackend.Helpers.Attributes;
-using PostPalBackend.Helpers.Exceptions;
-using PostPalBackend.Models.DTOs.PostDTOs;
 using PostPalBackend.Models.DTOs.ProfileDTOs;
 using PostPalBackend.Models.Enums;
 using PostPalBackend.Services.PostService;
@@ -51,18 +49,6 @@ namespace PostPalBackend.Controllers
 			var profiles = _profileService.GetByIds(ids);
 
 			return profiles.Select(p => _mapper.Map<ProfileResponseDTO>(p)).ToList();
-		}
-
-		[HttpGet("{id}/posts")]
-		public List<PostResponseDTO> GetPosts([FromRoute(Name = "id")] Guid profileId)
-		{
-			var profile = _profileService.GetById(profileId);
-			if (profile == null)
-			{
-				throw new ProjectException(ProjectStatusCodes.Code.Http404NotFound, "Profile not found.");
-			}
-
-			return _postService.GetAllByProfileId(profileId).Select(_mapper.Map<PostResponseDTO>).ToList(); // Maybe add Posts navigation property on profile
 		}
 
 		[HttpPatch("{id}")]

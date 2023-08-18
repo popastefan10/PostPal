@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using PostPalBackend.Helpers.Attributes;
 using PostPalBackend.Helpers.Exceptions;
 using PostPalBackend.Helpers.Extensions;
 using PostPalBackend.Models;
+using PostPalBackend.Models.DTOs.PostDTOs;
 using PostPalBackend.Models.DTOs.UserDTO;
 using PostPalBackend.Models.DTOs.UserDTOs;
 using PostPalBackend.Models.Enums;
+using PostPalBackend.Services.PostService;
 using PostPalBackend.Services.UserService;
 
 namespace PostPalBackend.Controllers
@@ -14,11 +17,15 @@ namespace PostPalBackend.Controllers
 	[Route("api/users")]
 	public class UserController : ControllerBase
 	{
+		private readonly IMapper _mapper;
 		private readonly IUserService _userService;
+		private readonly IPostService _postService;
 
-		public UserController(IUserService userService)
+		public UserController(IMapper mapper, IUserService userService, IPostService postService)
 		{
+			_mapper = mapper;
 			_userService = userService;
+			_postService = postService;
 		}
 
 		[HttpPost("register")]
@@ -90,6 +97,18 @@ namespace PostPalBackend.Controllers
 			}
 
 			return user;
+		}
+
+		[HttpGet("{id}/posts")]
+		public List<PostResponseDTO> GetPosts([FromRoute(Name = "id")] Guid userId)
+		{
+			var user = _userService.GetById(userId);
+			if (user == null)
+			{
+				throw new ProjectException(ProjectStatusCodes.Code.Http404NotFound, "User not found.");
+			}
+
+			return _postService.GetAllByUserId(userId).Select(_mapper.Map<PostResponseDTO>).ToList(); // Maybe add Posts navigation property on profile
 		}
 
 		[HttpPatch("{userId}")]

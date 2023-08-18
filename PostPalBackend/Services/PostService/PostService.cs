@@ -18,9 +18,10 @@ namespace PostPalBackend.Services.PostService
 			_postRepository = postRepository;
 		}
 
-		public Post Create(PostCreateDTO dto)
+		public Post Create(PostCreateDTO dto, Guid userId)
 		{
 			var post = _mapper.Map<Post>(dto);
+			post.UserId = userId;
 			_postRepository.Create(post);
 			try
 			{
@@ -31,7 +32,6 @@ namespace PostPalBackend.Services.PostService
 				throw new ProjectException(ProjectStatusCodes.Http400BadRequest, "Unknown profile.");
 			}
 
-
 			return post;
 		}
 
@@ -40,9 +40,9 @@ namespace PostPalBackend.Services.PostService
 			return _postRepository.GetAll();
 		}
 
-		public List<Post> GetAllByProfileId(Guid profileId)
+		public List<Post> GetAllByUserId(Guid userId)
 		{
-			return _postRepository.GetAll().Where(post => post.ProfileId == profileId).ToList();
+			return _postRepository.GetAll().Where(post => post.UserId == userId).ToList();
 		}
 
 		public Post? GetById(Guid id, bool includeProperties = false)
