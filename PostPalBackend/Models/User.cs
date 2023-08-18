@@ -5,16 +5,16 @@ using System.Text.Json.Serialization;
 
 namespace PostPalBackend.Models
 {
-	[Index(nameof(Email), IsUnique = true)]
-	public class User : BaseEntity
-	{
-		public string Email { get; set; }
+    [Index(nameof(Email), IsUnique = true)]
+    public class User : BaseEntity
+    {
+        public string Email { get; set; } = string.Empty;
 
-		[JsonIgnore]
-		public string PasswordHash { get; set; }
+        [JsonIgnore]
+        public string PasswordHash { get; set; } = string.Empty;
 
-		public Role Role { get; set; } = Role.User;
+        public Role Role { get; set; } = Role.User;
 
-		public bool? isBanned { get; set; }
-	}
+        public bool? isBanned { get; set; }
+    }
 }
