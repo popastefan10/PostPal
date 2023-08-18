@@ -51,11 +51,7 @@ namespace PostPalBackend.Services.ProfileService
 
 		public UserProfile Update(Guid id, ProfileUpdateDTO dto)
 		{
-			var profile = _profileRepository.FindById(id);
-			if (profile == null)
-			{
-				throw new ProjectException(ProjectStatusCodes.Code.Http404NotFound, "Profile not found.");
-			}
+			var profile = _profileRepository.FindById(id) ?? throw new ProjectException(ProjectStatusCodes.Code.Http404NotFound, "Profile not found.");
 
 			if (dto.FirstName != null)
 			{

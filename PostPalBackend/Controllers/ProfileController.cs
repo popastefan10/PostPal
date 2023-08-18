@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using PostPalBackend.Helpers.Attributes;
 using PostPalBackend.Models.DTOs.ProfileDTOs;
 using PostPalBackend.Models.Enums;
-using PostPalBackend.Services.PostService;
 using PostPalBackend.Services.ProfileService;
 
 namespace PostPalBackend.Controllers
@@ -14,13 +13,11 @@ namespace PostPalBackend.Controllers
 	{
 		private readonly IMapper _mapper;
 		private readonly IProfileService _profileService;
-		private readonly IPostService _postService;
 
-		public ProfileController(IMapper mapper, IProfileService profileService, IPostService postService)
+		public ProfileController(IMapper mapper, IProfileService profileService)
 		{
 			_mapper = mapper;
 			_profileService = profileService;
-			_postService = postService;
 		}
 
 		[HttpPost()]

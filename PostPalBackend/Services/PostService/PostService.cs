@@ -45,9 +45,14 @@ namespace PostPalBackend.Services.PostService
 			return _postRepository.GetAll().Where(post => post.UserId == userId).ToList();
 		}
 
-		public Post? GetById(Guid id, bool includeProperties = false)
+		public Post? GetById(Guid id)
 		{
-			return includeProperties == false ? _postRepository.FindById(id) : _postRepository.GetWithUser(id);
+			return _postRepository.FindById(id);
+		}
+
+		public Post? GetWithUser(Guid id)
+		{
+			return _postRepository.GetWithUser(id);
 		}
 
 		public void Update(Post post, PostUpdateDTO dto)
@@ -72,11 +77,7 @@ namespace PostPalBackend.Services.PostService
 
 		public void Like(Guid postId, Guid userId)
 		{
-			var post = _postRepository.GetWithLikes(postId);
-			if (post == null)
-			{
-				throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Post not found.");
-			}
+			var post = _postRepository.GetWithLikes(postId) ?? throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Post not found.");
 
 			var postLike = post.PostLikes.FirstOrDefault(like => like.UserId == userId);
 			if (postLike == null)
@@ -92,11 +93,7 @@ namespace PostPalBackend.Services.PostService
 
 		public void RemoveLike(Guid postId, Guid userId)
 		{
-			var post = _postRepository.GetWithLikes(postId);
-			if (post == null)
-			{
-				throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Post not found.");
-			}
+			var post = _postRepository.GetWithLikes(postId) ?? throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Post not found.");
 
 			var postLike = post.PostLikes.FirstOrDefault(like => like.UserId == userId);
 			if (postLike != null)
@@ -108,22 +105,14 @@ namespace PostPalBackend.Services.PostService
 
 		public List<UserProfile> GetLikesProfiles(Guid postId)
 		{
-			var post = _postRepository.GetWithLikesProfiles(postId);
-			if (post == null)
-			{
-				throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Post not found.");
-			}
+			var post = _postRepository.GetWithLikesProfiles(postId) ?? throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Post not found.");
 
 			return post.PostLikesUsers.Select(user => user.Profile).Where(profile => profile! != null).ToList() as List<UserProfile>;
 		}
 
 		public int GetLikesCount(Guid postId)
 		{
-			var post = _postRepository.GetWithLikes(postId);
-			if (post == null)
-			{
-				throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Post not found.");
-			}
+			var post = _postRepository.GetWithLikes(postId) ?? throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Post not found.");
 
 			return post.PostLikes.Count;
 		}

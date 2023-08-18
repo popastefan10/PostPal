@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PostPalBackend.Data;
 
@@ -11,9 +12,11 @@ using PostPalBackend.Data;
 namespace PostPalBackend.Migrations
 {
     [DbContext(typeof(PostPalDbContext))]
-    partial class PostPalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230818173158_RenameIsBanned")]
+    partial class RenameIsBanned
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -6,6 +6,7 @@ using PostPalBackend.Models.Enums;
 
 namespace PostPalBackend.Helpers.Attributes
 {
+	[AttributeUsage(AttributeTargets.Method)]
 	public class AuthorizationAttribute : Attribute, IAuthorizationFilter
 	{
 		private readonly ICollection<Role> _roles;

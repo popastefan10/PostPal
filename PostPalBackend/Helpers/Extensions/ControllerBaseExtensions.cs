@@ -8,11 +8,7 @@ namespace PostPalBackend.Helpers.Extensions
 	{
 		public static User GetUserFromHttpContext(this ControllerBase controllerBase)
 		{
-			var user = controllerBase.HttpContext.Items["User"] as User;
-			if (user == null)
-			{
-				throw new ProjectException(ProjectStatusCodes.Http401Unauthorized, "You are anauthorized to perform this action.");
-			}
+			var user = controllerBase.HttpContext.Items["User"] as User ?? throw new ProjectException(ProjectStatusCodes.Http401Unauthorized, "You are anauthorized to perform this action.");
 
 			return user;
 		}

@@ -15,7 +15,7 @@ namespace PostPalBackend.Models
 
 		public Role Role { get; set; } = Role.User;
 
-		public bool? isBanned { get; set; }
+		public bool? IsBanned { get; set; }
 
 		public UserProfile? Profile { get; set; }
 	}

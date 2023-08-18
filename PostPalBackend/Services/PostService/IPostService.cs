@@ -11,7 +11,9 @@ namespace PostPalBackend.Services.PostService
 
 		List<Post> GetAllByUserId(Guid userId);
 
-		Post? GetById(Guid id, bool includeProperties = false);
+		Post? GetById(Guid id);
+
+		Post? GetWithUser(Guid id);
 
 		void Update(Post post, PostUpdateDTO dto);
 

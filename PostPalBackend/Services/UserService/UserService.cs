@@ -46,7 +46,7 @@ namespace PostPalBackend.Services.UserService
 			{
 				return null;
 			}
-			if (user.isBanned == true)
+			if (user.IsBanned == true)
 			{
 				throw new ProjectException(ProjectStatusCodes.UserBanned, "Cannot login into a banned account.");
 			}
@@ -57,7 +57,7 @@ namespace PostPalBackend.Services.UserService
 
 		public User Ban(User user)
 		{
-			user.isBanned = true;
+			user.IsBanned = true;
 			_userRepository.Save();
 
 			return user;
@@ -65,7 +65,7 @@ namespace PostPalBackend.Services.UserService
 
 		public User RemoveBan(User user)
 		{
-			user.isBanned = false;
+			user.IsBanned = false;
 			_userRepository.Save();
 
 			return user;
@@ -83,11 +83,7 @@ namespace PostPalBackend.Services.UserService
 
 		public User Update(Guid id, UserUpdateDTO dto)
 		{
-			var user = this._userRepository.FindById(id);
-			if (user == null)
-			{
-				throw new ProjectException(ProjectStatusCodes.Http404NotFound, "User not found.");
-			}
+			var user = this._userRepository.FindById(id) ?? throw new ProjectException(ProjectStatusCodes.Http404NotFound, "User not found.");
 
 			if (dto.Email != null)
 			{
@@ -105,11 +101,7 @@ namespace PostPalBackend.Services.UserService
 
 		public User Delete(Guid id)
 		{
-			var user = this._userRepository.FindById(id);
-			if (user == null)
-			{
-				throw new ProjectException(ProjectStatusCodes.Http404NotFound, "User not found.");
-			}
+			var user = this._userRepository.FindById(id) ?? throw new ProjectException(ProjectStatusCodes.Http404NotFound, "User not found.");
 
 			this._userRepository.Delete(user);
 			this._userRepository.Save();

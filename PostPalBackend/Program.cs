@@ -73,7 +73,7 @@ app.MapControllers();
 
 app.Run();
 
-void SeedData(IHost app)
+static void SeedData(IHost app)
 {
 	var serviceProvider = app.Services.GetService<IServiceScopeFactory>()?.CreateScope().ServiceProvider;
 

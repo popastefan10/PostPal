@@ -90,11 +90,7 @@ namespace PostPalBackend.Controllers
 		[Authorization(Role.User, Role.Admin)]
 		public User GetById([FromRoute] Guid userId)
 		{
-			var user = _userService.GetById(userId);
-			if (user == null)
-			{
-				throw new ProjectException(ProjectStatusCodes.Http404NotFound, "User not found.");
-			}
+			var user = _userService.GetById(userId) ?? throw new ProjectException(ProjectStatusCodes.Http404NotFound, "User not found.");
 
 			return user;
 		}
@@ -102,11 +98,7 @@ namespace PostPalBackend.Controllers
 		[HttpGet("{id}/posts")]
 		public List<PostResponseDTO> GetPosts([FromRoute(Name = "id")] Guid userId)
 		{
-			var user = _userService.GetById(userId);
-			if (user == null)
-			{
-				throw new ProjectException(ProjectStatusCodes.Code.Http404NotFound, "User not found.");
-			}
+			var user = _userService.GetById(userId) ?? throw new ProjectException(ProjectStatusCodes.Code.Http404NotFound, "User not found.");
 
 			return _postService.GetAllByUserId(userId).Select(_mapper.Map<PostResponseDTO>).ToList(); // Maybe add Posts navigation property on profile
 		}
