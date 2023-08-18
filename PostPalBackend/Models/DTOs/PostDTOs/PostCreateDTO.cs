@@ -1,0 +1,11 @@
+﻿namespace PostPalBackend.Models.DTOs.PostDTOs
+{
+	public class PostCreateDTO
+	{
+		public Guid ProfileId { get; set; }
+
+		public string Description { get; set; }
+
+		public List<string> ImagesUrls { get; set; }
+	}
+}

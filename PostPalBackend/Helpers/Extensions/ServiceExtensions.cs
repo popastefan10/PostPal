@@ -2,8 +2,10 @@
 using PostPalBackend.Helpers.Jwt;
 using PostPalBackend.Helpers.Mappers;
 using PostPalBackend.Helpers.Seeders;
+using PostPalBackend.Repositories.PostRepository;
 using PostPalBackend.Repositories.ProfileRepository;
 using PostPalBackend.Repositories.UserRepository;
+using PostPalBackend.Services.PostService;
 using PostPalBackend.Services.ProfileService;
 using PostPalBackend.Services.UserService;
 
@@ -15,6 +17,7 @@ namespace PostPalBackend.Helpers.Extensions
 		{
 			services.AddTransient<IUserRepository, UserRepository>();
 			services.AddTransient<IProfileRepository, ProfileRepository>();
+			services.AddTransient<IPostRepository, PostRepository>();
 
 			return services;
 		}
@@ -30,6 +33,7 @@ namespace PostPalBackend.Helpers.Extensions
 		{
 			services.AddTransient<IUserService, UserService>();
 			services.AddTransient<IProfileService, ProfileService>();
+			services.AddTransient<IPostService, PostService>();
 
 			var mapperConfig = new MapperConfiguration(mc =>
 			{

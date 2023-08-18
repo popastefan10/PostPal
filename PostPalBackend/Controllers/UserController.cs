@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PostPalBackend.Helpers.Attributes;
 using PostPalBackend.Helpers.Exceptions;
+using PostPalBackend.Helpers.Extensions;
 using PostPalBackend.Models;
 using PostPalBackend.Models.DTOs.UserDTO;
 using PostPalBackend.Models.DTOs.UserDTOs;
@@ -102,7 +103,7 @@ namespace PostPalBackend.Controllers
 		[Authorization(Role.User, Role.Admin)]
 		public User DeleteMe()
 		{
-			var user = this.HttpContext.Items["User"] as User;
+			var user = this.GetUserFromHttpContext();
 
 			return this._userService.Delete(user.Id);
 		}

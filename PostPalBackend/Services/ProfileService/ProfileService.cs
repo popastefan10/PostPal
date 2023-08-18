@@ -26,7 +26,7 @@ namespace PostPalBackend.Services.ProfileService
 			{
 				_profileRepository.Save();
 			}
-			catch (DbUpdateException ex)
+			catch (DbUpdateException)
 			{
 				throw new ProjectException(ProjectStatusCodes.UserAlreadyHasProfile, "This user already has a profile.");
 			}
@@ -42,6 +42,11 @@ namespace PostPalBackend.Services.ProfileService
 		public List<UserProfile> GetByIds(Guid[] ids)
 		{
 			return _profileRepository.GetByIds(ids);
+		}
+
+		public UserProfile? GetById(Guid id)
+		{
+			return _profileRepository.FindById(id);
 		}
 
 		public UserProfile Update(Guid id, ProfileUpdateDTO dto)

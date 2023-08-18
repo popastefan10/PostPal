@@ -12,6 +12,9 @@ namespace PostPalBackend.Helpers.Exceptions
 			[HttpStatusCode(StatusCodes.Status401Unauthorized)]
 			Http401Unauthorized,
 
+			[HttpStatusCode(StatusCodes.Status403Forbidden)]
+			Http403Forbidden,
+
 			[HttpStatusCode(StatusCodes.Status404NotFound)]
 			Http404NotFound,
 
@@ -28,6 +31,8 @@ namespace PostPalBackend.Helpers.Exceptions
 		public const Code Http400BadRequest = Code.Http400BadRequest;
 
 		public const Code Http401Unauthorized = Code.Http401Unauthorized;
+
+		public const Code Http403Forbidden = Code.Http403Forbidden;
 
 		public const Code Http404NotFound = Code.Http404NotFound;
 

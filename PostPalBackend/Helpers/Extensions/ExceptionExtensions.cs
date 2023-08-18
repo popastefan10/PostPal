@@ -25,7 +25,9 @@ namespace PostPalBackend.Helpers.Extensions
 					}
 
 					context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-					await context.Response.WriteAsync(new ExceptionResponse(ProjectStatusCodes.Http500InternalServerError, exceptionHandlerPathFeature.Error.Message).ToString());
+					await context.Response.WriteAsync(new ExceptionResponse(
+						ProjectStatusCodes.Http500InternalServerError,
+						exceptionHandlerPathFeature == null ? "An exception was thrown" : exceptionHandlerPathFeature.Error.Message).ToString());
 				});
 			});
 		}

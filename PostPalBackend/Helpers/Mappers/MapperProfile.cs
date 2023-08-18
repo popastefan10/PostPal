@@ -1,4 +1,5 @@
 ﻿using PostPalBackend.Models;
+using PostPalBackend.Models.DTOs.PostDTOs;
 using PostPalBackend.Models.DTOs.ProfileDTOs;
 using PostPalBackend.Models.DTOs.UserDTOs;
 using BCryptNet = BCrypt.Net.BCrypt;
@@ -14,6 +15,9 @@ namespace PostPalBackend.Helpers.Mappers
 
 			CreateMap<ProfileCreateDTO, UserProfile>();
 			CreateMap<UserProfile, ProfileResponseDTO>();
+
+			CreateMap<PostCreateDTO, Post>();
+			CreateMap<Post, PostResponseDTO>();
 		}
 	}
 }

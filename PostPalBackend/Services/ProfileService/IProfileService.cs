@@ -11,6 +11,8 @@ namespace PostPalBackend.Services.ProfileService
 
 		List<UserProfile> GetByIds(Guid[] ids);
 
+		UserProfile? GetById(Guid id);
+
 		UserProfile Update(Guid id, ProfileUpdateDTO dto);
 	}
 }
