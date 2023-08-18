@@ -5,6 +5,10 @@ namespace PostPalBackend.Repositories.PostRepository
 {
 	public interface IPostRepository : IGenericRepository<Post>
 	{
-		Post? FindByIdIncludeNavigationProperties(Guid id);
+		Post? GetWithUser(Guid id);
+
+		Post? GetWithLikes(Guid id);
+
+		public Post? GetWithLikesProfiles(Guid id);
 	}
 }

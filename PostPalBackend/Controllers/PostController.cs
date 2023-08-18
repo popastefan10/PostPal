@@ -4,6 +4,7 @@ using PostPalBackend.Helpers.Attributes;
 using PostPalBackend.Helpers.Exceptions;
 using PostPalBackend.Helpers.Extensions;
 using PostPalBackend.Models.DTOs.PostDTOs;
+using PostPalBackend.Models.DTOs.ProfileDTOs;
 using PostPalBackend.Models.Enums;
 using PostPalBackend.Services.PostService;
 
@@ -29,6 +30,38 @@ namespace PostPalBackend.Controllers
 			var user = this.GetUserFromHttpContext();
 
 			return _mapper.Map<PostResponseDTO>(_postService.Create(dto, user.Id));
+		}
+
+		[HttpPost("{id}/like")]
+		[Authorization(Role.User, Role.Admin)]
+		public IActionResult Like([FromRoute] Guid id)
+		{
+			var user = this.GetUserFromHttpContext();
+			_postService.Like(id, user.Id);
+
+			return Ok();
+		}
+
+		[HttpPost("{id}/remove-like")]
+		[Authorization(Role.User, Role.Admin)]
+		public IActionResult RemoveLike([FromRoute] Guid id)
+		{
+			var user = this.GetUserFromHttpContext();
+			_postService.RemoveLike(id, user.Id);
+
+			return Ok();
+		}
+
+		[HttpGet("{id}/likes")]
+		public List<ProfileResponseDTO> GetLikesProfiles([FromRoute] Guid id)
+		{
+			return _postService.GetLikesProfiles(id).Select(_mapper.Map<ProfileResponseDTO>).ToList();
+		}
+
+		[HttpGet("{id}/likes/count")]
+		public int GetLikesCount([FromRoute] Guid id)
+		{
+			return _postService.GetLikesCount(id);
 		}
 
 		[HttpGet("")]

@@ -11,9 +11,19 @@ namespace PostPalBackend.Repositories.PostRepository
 		{
 		}
 
-		public Post? FindByIdIncludeNavigationProperties(Guid id)
+		public Post? GetWithUser(Guid id)
 		{
 			return this.Table.Include(post => post.User).Where(post => post.Id == id).FirstOrDefault();
+		}
+
+		public Post? GetWithLikes(Guid id)
+		{
+			return this.Table.Include(post => post.PostLikes).Where(post => post.Id == id).FirstOrDefault();
+		}
+
+		public Post? GetWithLikesProfiles(Guid id)
+		{
+			return this.Table.Include(post => post.PostLikesUsers).ThenInclude(user => user.Profile).Where(post => post.Id == id).FirstOrDefault();
 		}
 	}
 }

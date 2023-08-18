@@ -16,5 +16,13 @@ namespace PostPalBackend.Services.PostService
 		void Update(Post post, PostUpdateDTO dto);
 
 		void Delete(Post post);
+
+		void Like(Guid postId, Guid userId);
+
+		void RemoveLike(Guid postId, Guid userId);
+
+		List<UserProfile> GetLikesProfiles(Guid postId);
+
+		int GetLikesCount(Guid postId);
 	}
 }

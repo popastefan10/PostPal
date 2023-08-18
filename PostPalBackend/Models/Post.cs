@@ -13,5 +13,7 @@ namespace PostPalBackend.Models
 		public List<string> ImagesUrls { get; set; } = new List<string>();
 
 		public List<PostLike> PostLikes { get; set; } = null!;
+
+		public List<User> PostLikesUsers { get; set; } = null!;
 	}
 }

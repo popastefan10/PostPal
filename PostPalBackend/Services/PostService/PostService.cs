@@ -47,7 +47,7 @@ namespace PostPalBackend.Services.PostService
 
 		public Post? GetById(Guid id, bool includeProperties = false)
 		{
-			return includeProperties == false ? _postRepository.FindById(id) : _postRepository.FindByIdIncludeNavigationProperties(id);
+			return includeProperties == false ? _postRepository.FindById(id) : _postRepository.GetWithUser(id);
 		}
 
 		public void Update(Post post, PostUpdateDTO dto)
@@ -68,6 +68,64 @@ namespace PostPalBackend.Services.PostService
 		{
 			_postRepository.Delete(post);
 			_postRepository.Save();
+		}
+
+		public void Like(Guid postId, Guid userId)
+		{
+			var post = _postRepository.GetWithLikes(postId);
+			if (post == null)
+			{
+				throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Post not found.");
+			}
+
+			var postLike = post.PostLikes.FirstOrDefault(like => like.UserId == userId);
+			if (postLike == null)
+			{
+				post.PostLikes.Add(new PostLike
+				{
+					PostId = postId,
+					UserId = userId
+				});
+				_postRepository.Save();
+			}
+		}
+
+		public void RemoveLike(Guid postId, Guid userId)
+		{
+			var post = _postRepository.GetWithLikes(postId);
+			if (post == null)
+			{
+				throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Post not found.");
+			}
+
+			var postLike = post.PostLikes.FirstOrDefault(like => like.UserId == userId);
+			if (postLike != null)
+			{
+				post.PostLikes.Remove(postLike);
+				_postRepository.Save();
+			}
+		}
+
+		public List<UserProfile> GetLikesProfiles(Guid postId)
+		{
+			var post = _postRepository.GetWithLikesProfiles(postId);
+			if (post == null)
+			{
+				throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Post not found.");
+			}
+
+			return post.PostLikesUsers.Select(user => user.Profile).Where(profile => profile! != null).ToList() as List<UserProfile>;
+		}
+
+		public int GetLikesCount(Guid postId)
+		{
+			var post = _postRepository.GetWithLikes(postId);
+			if (post == null)
+			{
+				throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Post not found.");
+			}
+
+			return post.PostLikes.Count;
 		}
 	}
 }

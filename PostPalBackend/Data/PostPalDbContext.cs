@@ -44,7 +44,7 @@ namespace PostPalBackend.Data
 				.HasDefaultValueSql("getdate()");
 			modelBuilder.Entity<UserProfile>()
 				.HasOne(e => e.User)
-				.WithOne()
+				.WithOne(e => e.Profile)
 				.HasForeignKey<UserProfile>(e => e.UserId)
 				.IsRequired();
 
@@ -70,7 +70,7 @@ namespace PostPalBackend.Data
 						c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
 						c => c.ToList()));
 			modelBuilder.Entity<Post>()
-				.HasMany<User>()
+				.HasMany<User>(e => e.PostLikesUsers)
 				.WithMany()
 				.UsingEntity<PostLike>(
 					l => l.HasOne<User>().WithMany().HasForeignKey(e => e.UserId).OnDelete(DeleteBehavior.Restrict),
