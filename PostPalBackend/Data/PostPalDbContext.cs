@@ -14,6 +14,8 @@ namespace PostPalBackend.Data
 
 		public DbSet<Post> Posts { get; set; }
 
+		public DbSet<PostLike> PostLikes { get; set; }
+
 		public PostPalDbContext(DbContextOptions<PostPalDbContext> options) : base(options)
 		{
 		}
@@ -67,6 +69,12 @@ namespace PostPalBackend.Data
 						(c1, c2) => c1!.SequenceEqual(c2!),
 						c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
 						c => c.ToList()));
+			modelBuilder.Entity<Post>()
+				.HasMany<User>()
+				.WithMany()
+				.UsingEntity<PostLike>(
+					l => l.HasOne<User>().WithMany().HasForeignKey(e => e.UserId).OnDelete(DeleteBehavior.Restrict),
+					r => r.HasOne<Post>().WithMany(e => e.PostLikes).HasForeignKey(e => e.PostId).OnDelete(deleteBehavior: DeleteBehavior.Cascade));
 		}
 	}
 }
