@@ -26,9 +26,9 @@ namespace PostPalBackend.Services.ProfileService
 			{
 				_profileRepository.Save();
 			}
-			catch (DbUpdateException)
+			catch (DbUpdateException ex)
 			{
-				throw new ProjectException(ProjectStatusCodes.UserAlreadyHasProfile, "This user already has a profile.");
+				throw new ProjectException(ProjectStatusCodes.UserAlreadyHasProfile, ex.InnerException?.Message ?? ex.Message);
 			}
 
 			return profile;

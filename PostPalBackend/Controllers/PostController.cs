@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PostPalBackend.Helpers.Attributes;
 using PostPalBackend.Helpers.Exceptions;
 using PostPalBackend.Helpers.Extensions;
+using PostPalBackend.Models.DTOs.CommentDTOs;
 using PostPalBackend.Models.DTOs.PostDTOs;
 using PostPalBackend.Models.DTOs.ProfileDTOs;
 using PostPalBackend.Models.Enums;
@@ -12,7 +13,7 @@ namespace PostPalBackend.Controllers
 {
 	[ApiController]
 	[Route("api/posts")]
-	public class PostController : Controller
+	public class PostController : ControllerBase
 	{
 		private readonly IMapper _mapper;
 		private readonly IPostService _postService;
@@ -52,18 +53,6 @@ namespace PostPalBackend.Controllers
 			return Ok();
 		}
 
-		[HttpGet("{id}/likes")]
-		public List<ProfileResponseDTO> GetLikesProfiles([FromRoute] Guid id)
-		{
-			return _postService.GetLikesProfiles(id).Select(_mapper.Map<ProfileResponseDTO>).ToList();
-		}
-
-		[HttpGet("{id}/likes/count")]
-		public int GetLikesCount([FromRoute] Guid id)
-		{
-			return _postService.GetLikesCount(id);
-		}
-
 		[HttpGet("")]
 		public List<PostResponseDTO> GetAll()
 		{
@@ -76,6 +65,36 @@ namespace PostPalBackend.Controllers
 			var post = _postService.GetById(id) ?? throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Post not found.");
 
 			return _mapper.Map<PostResponseDTO>(post);
+		}
+
+		[HttpGet("{id}/likes")]
+		public List<ProfileResponseDTO> GetLikesProfiles([FromRoute] Guid id)
+		{
+			return _postService.GetLikesProfiles(id).Select(_mapper.Map<ProfileResponseDTO>).ToList();
+		}
+
+		[HttpGet("{id}/likes/count")]
+		public int GetLikesCount([FromRoute] Guid id)
+		{
+			return _postService.GetLikesCount(id);
+		}
+
+		[HttpGet("{id}/comments")]
+		public CommentsWithProfilesResponseDTO GetComments([FromRoute] Guid id)
+		{
+			var comments = _postService.GetCommentsWithProfiles(id);
+
+			return new CommentsWithProfilesResponseDTO
+			{
+				Comments = comments.Select(_mapper.Map<CommentResponseDTO>).ToList(),
+				Profiles = comments.Select(c => c.User.Profile).Distinct().Select(_mapper.Map<ProfileResponseDTO>).ToDictionary(p => p.Id)
+			};
+		}
+
+		[HttpGet("{id}/comments/count")]
+		public int GetCommentsCount([FromRoute] Guid id)
+		{
+			return _postService.GetCommentsCount(id);
 		}
 
 		[HttpPatch("{id}")]

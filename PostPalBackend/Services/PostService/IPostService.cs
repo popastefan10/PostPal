@@ -26,5 +26,9 @@ namespace PostPalBackend.Services.PostService
 		List<UserProfile> GetLikesProfiles(Guid postId);
 
 		int GetLikesCount(Guid postId);
+
+		List<Comment> GetCommentsWithProfiles(Guid postId);
+
+		int GetCommentsCount(Guid postId);
 	}
 }

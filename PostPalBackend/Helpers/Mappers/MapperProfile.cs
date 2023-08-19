@@ -1,4 +1,5 @@
 ﻿using PostPalBackend.Models;
+using PostPalBackend.Models.DTOs.CommentDTOs;
 using PostPalBackend.Models.DTOs.PostDTOs;
 using PostPalBackend.Models.DTOs.ProfileDTOs;
 using PostPalBackend.Models.DTOs.UserDTOs;
@@ -18,6 +19,9 @@ namespace PostPalBackend.Helpers.Mappers
 
 			CreateMap<PostCreateDTO, Post>();
 			CreateMap<Post, PostResponseDTO>();
+
+			CreateMap<CommentCreateDTO, Comment>();
+			CreateMap<Comment, CommentResponseDTO>();
 		}
 	}
 }

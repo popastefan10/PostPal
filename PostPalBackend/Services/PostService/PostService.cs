@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PostPalBackend.Helpers.Exceptions;
 using PostPalBackend.Models;
 using PostPalBackend.Models.DTOs.PostDTOs;
+using PostPalBackend.Repositories.CommentRepository;
 using PostPalBackend.Repositories.PostRepository;
 
 namespace PostPalBackend.Services.PostService
@@ -11,11 +12,13 @@ namespace PostPalBackend.Services.PostService
 	{
 		private readonly IMapper _mapper;
 		private readonly IPostRepository _postRepository;
+		private readonly ICommentRepository _commentRepository;
 
-		public PostService(IMapper mapper, IPostRepository postRepository)
+		public PostService(IMapper mapper, IPostRepository postRepository, ICommentRepository commentRepository)
 		{
 			_mapper = mapper;
 			_postRepository = postRepository;
+			_commentRepository = commentRepository;
 		}
 
 		public Post Create(PostCreateDTO dto, Guid userId)
@@ -27,9 +30,9 @@ namespace PostPalBackend.Services.PostService
 			{
 				_postRepository.Save();
 			}
-			catch (DbUpdateException)
+			catch (DbUpdateException ex)
 			{
-				throw new ProjectException(ProjectStatusCodes.Http400BadRequest, "Unknown profile.");
+				throw new ProjectException(ProjectStatusCodes.Http400BadRequest, ex.InnerException?.Message ?? ex.Message);
 			}
 
 			return post;
@@ -115,6 +118,18 @@ namespace PostPalBackend.Services.PostService
 			var post = _postRepository.GetWithLikes(postId) ?? throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Post not found.");
 
 			return post.PostLikes.Count;
+		}
+
+		public List<Comment> GetCommentsWithProfiles(Guid postId)
+		{
+			_ = _postRepository.FindById(postId) ?? throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Post not found.");
+
+			return _commentRepository.GetWithProfilesByPostId(postId);
+		}
+
+		public int GetCommentsCount(Guid postId)
+		{
+			return _commentRepository.GetByPostId(postId).Count;
 		}
 	}
 }

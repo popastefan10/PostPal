@@ -86,6 +86,15 @@ namespace PostPalBackend.Controllers
 			return _userService.GetAllUsers();
 		}
 
+		[HttpGet("me")]
+		[Authorization(Role.User, Role.Admin)]
+		public User GetMe()
+		{
+			var user = this.GetUserFromHttpContext();
+
+			return user;
+		}
+
 		[HttpGet("{userId}")]
 		[Authorization(Role.User, Role.Admin)]
 		public User GetById([FromRoute] Guid userId)
