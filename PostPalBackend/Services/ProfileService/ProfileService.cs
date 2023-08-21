@@ -4,6 +4,7 @@ using PostPalBackend.Helpers.Exceptions;
 using PostPalBackend.Models;
 using PostPalBackend.Models.DTOs.ProfileDTOs;
 using PostPalBackend.Repositories.ProfileRepository;
+using PostPalBackend.Services.AwsS3Service;
 
 namespace PostPalBackend.Services.ProfileService
 {
@@ -11,16 +12,30 @@ namespace PostPalBackend.Services.ProfileService
 	{
 		private readonly IMapper _mapper;
 		private readonly IProfileRepository _profileRepository;
+		private readonly IAwsS3Service _awsS3Service;
 
-		public ProfileService(IMapper mapper, IProfileRepository profileRepository)
+		public ProfileService(IMapper mapper, IProfileRepository profileRepository, IAwsS3Service awsS3Service)
 		{
 			_mapper = mapper;
 			_profileRepository = profileRepository;
+			_awsS3Service = awsS3Service;
 		}
 
-		public UserProfile Create(ProfileCreateDTO dto)
+		private Task<string> UploadProfilePicture(IFormFile profilePicture, Guid userId)
+		{
+			var filePathInS3 = $"users/{userId}/profile-pictures/{userId}";
+
+			return _awsS3Service.UploadFile(profilePicture, filePathInS3);
+		}
+
+		public UserProfile Create(ProfileCreateDTO dto, Guid userId)
 		{
 			var profile = _mapper.Map<UserProfile>(dto);
+			profile.UserId = userId;
+			if (dto.ProfilePicture != null)
+			{
+				profile.ProfilePictureUrl = UploadProfilePicture(dto.ProfilePicture, userId).Result;
+			}
 			_profileRepository.Create(profile);
 			try
 			{
@@ -49,10 +64,13 @@ namespace PostPalBackend.Services.ProfileService
 			return _profileRepository.FindById(id);
 		}
 
-		public UserProfile Update(Guid id, ProfileUpdateDTO dto)
+		public UserProfile? GetByUserId(Guid userId)
 		{
-			var profile = _profileRepository.FindById(id) ?? throw new ProjectException(ProjectStatusCodes.Code.Http404NotFound, "Profile not found.");
+			return _profileRepository.GetByUserId(userId);
+		}
 
+		public void Update(UserProfile profile, ProfileUpdateDTO dto)
+		{
 			if (dto.FirstName != null)
 			{
 				profile.FirstName = dto.FirstName;
@@ -61,9 +79,9 @@ namespace PostPalBackend.Services.ProfileService
 			{
 				profile.LastName = dto.LastName;
 			}
-			if (dto.ProfilePictureUrl != null)
+			if (dto.ProfilePicture != null)
 			{
-				profile.ProfilePictureUrl = dto.ProfilePictureUrl;
+				profile.ProfilePictureUrl = UploadProfilePicture(dto.ProfilePicture, profile.UserId).Result;
 			}
 			if (dto.Bio != null)
 			{
@@ -71,8 +89,6 @@ namespace PostPalBackend.Services.ProfileService
 			}
 			_profileRepository.Update(profile);
 			_profileRepository.Save();
-
-			return profile;
 		}
 	}
 }

@@ -5,6 +5,7 @@ using PostPalBackend.Models;
 using PostPalBackend.Models.DTOs.PostDTOs;
 using PostPalBackend.Repositories.CommentRepository;
 using PostPalBackend.Repositories.PostRepository;
+using PostPalBackend.Services.AwsS3Service;
 
 namespace PostPalBackend.Services.PostService
 {
@@ -13,12 +14,29 @@ namespace PostPalBackend.Services.PostService
 		private readonly IMapper _mapper;
 		private readonly IPostRepository _postRepository;
 		private readonly ICommentRepository _commentRepository;
+		private readonly IAwsS3Service _awsS3Service;
 
-		public PostService(IMapper mapper, IPostRepository postRepository, ICommentRepository commentRepository)
+		public PostService(IMapper mapper, IPostRepository postRepository, ICommentRepository commentRepository, IAwsS3Service awsS3Service)
 		{
 			_mapper = mapper;
 			_postRepository = postRepository;
 			_commentRepository = commentRepository;
+			_awsS3Service = awsS3Service;
+		}
+
+		private async Task<List<string>> UploadImages(List<IFormFile> images, Guid userId, Guid postId)
+		{
+			List<string> imagesUrls = new();
+			// TODO delete uploaded images if one of them fails to upload
+			foreach (var image in images)
+			{
+				var imageId = Guid.NewGuid();
+				var filePathInS3 = $"users/{userId}/posts/{postId}/{imageId}";
+				var imageUrl = await _awsS3Service.UploadFile(image, filePathInS3);
+				imagesUrls.Add(imageUrl);
+			}
+
+			return imagesUrls;
 		}
 
 		public Post Create(PostCreateDTO dto, Guid userId)
@@ -26,6 +44,10 @@ namespace PostPalBackend.Services.PostService
 			var post = _mapper.Map<Post>(dto);
 			post.UserId = userId;
 			_postRepository.Create(post);
+			if (dto.Images.Count > 0)
+			{
+				UploadImages(dto.Images, userId, post.Id).Result.ForEach(imageUrl => post.ImagesUrls.Add(imageUrl));
+			}
 			try
 			{
 				_postRepository.Save();
@@ -64,9 +86,10 @@ namespace PostPalBackend.Services.PostService
 			{
 				post.Description = dto.Description;
 			}
-			if (dto.ImagesUrls != null)
+			if (dto.Images != null)
 			{
-				post.ImagesUrls = dto.ImagesUrls;
+				// TODO delete old images
+				UploadImages(dto.Images, post.UserId, post.Id).Result.ForEach(imageUrl => post.ImagesUrls.Add(imageUrl));
 			}
 			_postRepository.Update(post);
 			_postRepository.Save();

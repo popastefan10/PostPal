@@ -26,7 +26,7 @@ namespace PostPalBackend.Controllers
 
 		[HttpPost("")]
 		[Authorization(Role.User, Role.Admin)]
-		public PostResponseDTO Create(PostCreateDTO dto)
+		public PostResponseDTO Create([FromForm] PostCreateDTO dto)
 		{
 			var user = this.GetUserFromHttpContext();
 
@@ -99,7 +99,7 @@ namespace PostPalBackend.Controllers
 
 		[HttpPatch("{id}")]
 		[Authorization(Role.User, Role.Admin)]
-		public PostResponseDTO Update([FromRoute] Guid id, PostUpdateDTO dto)
+		public PostResponseDTO Update([FromRoute] Guid id, [FromForm] PostUpdateDTO dto)
 		{
 			var post = _postService.GetWithUser(id) ?? throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Post not found.");
 			var user = this.GetUserFromHttpContext();

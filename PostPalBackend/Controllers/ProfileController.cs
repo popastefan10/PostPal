@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PostPalBackend.Helpers.Attributes;
+using PostPalBackend.Helpers.Exceptions;
+using PostPalBackend.Helpers.Extensions;
 using PostPalBackend.Models.DTOs.ProfileDTOs;
 using PostPalBackend.Models.Enums;
 using PostPalBackend.Services.ProfileService;
@@ -22,9 +24,10 @@ namespace PostPalBackend.Controllers
 
 		[HttpPost()]
 		[Authorization(Role.User, Role.Admin)]
-		public ProfileResponseDTO Create(ProfileCreateDTO dto)
+		public ProfileResponseDTO Create([FromForm] ProfileCreateDTO dto)
 		{
-			var profile = _profileService.Create(dto);
+			var user = this.GetUserFromHttpContext();
+			var profile = _profileService.Create(dto, user.Id);
 
 			return _mapper.Map<ProfileResponseDTO>(profile);
 		}
@@ -48,11 +51,17 @@ namespace PostPalBackend.Controllers
 			return profiles.Select(p => _mapper.Map<ProfileResponseDTO>(p)).ToList();
 		}
 
-		[HttpPatch("{id}")]
+		[HttpPatch("me")]
 		[Authorization(Role.User, Role.Admin)]
-		public ProfileResponseDTO Update([FromRoute] Guid id, [FromBody] ProfileUpdateDTO dto)
+		public ProfileResponseDTO Update([FromForm] ProfileUpdateDTO dto)
 		{
-			var profile = _profileService.Update(id, dto);
+			var user = this.GetUserFromHttpContext();
+			var profile = _profileService.GetByUserId(user.Id) ?? throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Profile not found.");
+			if (user.Id != profile.UserId)
+			{
+				throw new ProjectException(ProjectStatusCodes.Http401Unauthorized, "You are not the owner of this profile.");
+			}
+			_profileService.Update(profile, dto);
 
 			return _mapper.Map<ProfileResponseDTO>(profile);
 		}

@@ -15,9 +15,17 @@ namespace PostPalBackend.Helpers.Extensions
 					var exceptionHandlerPathFeature =
 						context.Features.Get<IExceptionHandlerPathFeature>();
 
+					ProjectException? projectException = null;
 					if (exceptionHandlerPathFeature?.Error is ProjectException)
 					{
-						var projectException = (ProjectException)exceptionHandlerPathFeature.Error;
+						projectException = (ProjectException)exceptionHandlerPathFeature.Error;
+					}
+					else if (exceptionHandlerPathFeature?.Error.InnerException is ProjectException)
+					{
+						projectException = (ProjectException)exceptionHandlerPathFeature.Error.InnerException;
+					}
+					if (projectException != null)
+					{
 						context.Response.StatusCode = projectException.HttpStatusCode;
 						await context.Response.WriteAsync(new ExceptionResponse(projectException.Code, projectException.Details).ToString());
 

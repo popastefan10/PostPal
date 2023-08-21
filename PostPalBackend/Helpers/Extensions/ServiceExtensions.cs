@@ -6,6 +6,7 @@ using PostPalBackend.Repositories.CommentRepository;
 using PostPalBackend.Repositories.PostRepository;
 using PostPalBackend.Repositories.ProfileRepository;
 using PostPalBackend.Repositories.UserRepository;
+using PostPalBackend.Services.AwsS3Service;
 using PostPalBackend.Services.CommentService;
 using PostPalBackend.Services.PostService;
 using PostPalBackend.Services.ProfileService;
@@ -38,6 +39,7 @@ namespace PostPalBackend.Helpers.Extensions
 			services.AddTransient<IProfileService, ProfileService>();
 			services.AddTransient<IPostService, PostService>();
 			services.AddTransient<ICommentService, CommentService>();
+			services.AddSingleton<IAwsS3Service, AwsS3Service>();
 
 			var mapperConfig = new MapperConfiguration(mc =>
 			{

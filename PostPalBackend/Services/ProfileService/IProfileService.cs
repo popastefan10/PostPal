@@ -5,7 +5,7 @@ namespace PostPalBackend.Services.ProfileService
 {
 	public interface IProfileService
 	{
-		UserProfile Create(ProfileCreateDTO dto);
+		UserProfile Create(ProfileCreateDTO dto, Guid userId);
 
 		List<UserProfile> GetAll();
 
@@ -13,6 +13,8 @@ namespace PostPalBackend.Services.ProfileService
 
 		UserProfile? GetById(Guid id);
 
-		UserProfile Update(Guid id, ProfileUpdateDTO dto);
+		UserProfile? GetByUserId(Guid userId);
+
+		void Update(UserProfile profile, ProfileUpdateDTO dto);
 	}
 }

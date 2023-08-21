@@ -14,5 +14,10 @@ namespace PostPalBackend.Repositories.ProfileRepository
 		{
 			return Table.Where(p => ids.Contains(p.Id)).ToList();
 		}
+
+		public UserProfile? GetByUserId(Guid userId)
+		{
+			return Table.FirstOrDefault(p => p.UserId == userId);
+		}
 	}
 }
