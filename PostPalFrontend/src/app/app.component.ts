@@ -1,26 +1,33 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { catchError, tap } from 'rxjs';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+	selector: 'app-root',
+	templateUrl: './app.component.html',
+	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  public forecasts?: WeatherForecast[];
+	public forecasts?: WeatherForecast[];
 
-  constructor(http: HttpClient) {
-    http.get<WeatherForecast[]>('/weatherforecast').subscribe(result => {
-      this.forecasts = result;
-    }, error => console.error(error));
-  }
+	constructor (http: HttpClient) {
+		http.get<WeatherForecast[]>('/weatherforecast').pipe(
+			tap(result => {
+				this.forecasts = result;
+			}),
+			catchError(error => {
+				console.error(error);
 
-  title = 'PostPalFrontend';
+				throw error;
+			})).subscribe();
+	}
+
+	title = 'PostPalFrontend';
 }
 
 interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
+	date: string;
+	temperatureC: number;
+	temperatureF: number;
+	summary: string;
 }
