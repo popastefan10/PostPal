@@ -1,0 +1,25 @@
+@use "variables" as *;
+@use "colors" as *;
+
+:host {
+	display: flex;
+	flex-direction: row;
+	align-items: inherit;
+	justify-content: space-between;
+	height: calc($navbar-height - 2 * $navbar-padding);
+	background-color: $primary-800;
+	color: $pure-white;
+	padding: 8px;
+}
+
+.left-items {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.right-items {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}

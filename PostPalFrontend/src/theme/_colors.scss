@@ -1,0 +1,7 @@
+@use '@angular/material' as mat;
+@use "palettes" as palettes;
+
+$primary: mat.get-color-from-palette(palettes.$PostPalFrontend-primary);
+$primary-800: mat.get-color-from-palette(palettes.$PostPalFrontend-primary, 800);
+
+$pure-white: #ffffff;
