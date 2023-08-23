@@ -1,42 +1,7 @@
 <pal-navbar></pal-navbar>
 <div class="content">
 	<router-outlet></router-outlet>
-	<h1 id="tableLabel">Weather forecast</h1>
 
-	<p>This component demonstrates fetching data from the server.</p>
-
-	<p *ngIf="!forecasts"><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationangular">https://aka.ms/jspsintegrationangular</a> for more details.</em></p>
-
-	<table *ngIf="forecasts">
-		<thead>
-			<tr>
-				<th>Date</th>
-				<th>Temp. (C)</th>
-				<th>Temp. (F)</th>
-				<th>Summary</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr *ngFor="let forecast of forecasts">
-				<td>{{ forecast.date }}</td>
-				<td>{{ forecast.temperatureC }}</td>
-				<td>{{ forecast.temperatureF }}</td>
-				<td>{{ forecast.summary }}</td>
-			</tr>
-		</tbody>
-	</table>
-
-	<div class="img-container">
-		<img src="https://post-pal.s3.eu-north-1.amazonaws.com/users/1e6a90d1-59ce-447a-eb30-08db9f263c71/posts/0a33c869-65e5-44c5-7b46-08dba26f739d/046c8d8d-5fab-4148-814a-c5edc1d551c0" />
-	</div>
-
-	<mat-slide-toggle>Toggle me!</mat-slide-toggle>
-	<button mat-raised-button color="primary">Press me</button>
-	<button mat-raised-button color="accent">Press me</button>
-	<button mat-raised-button color="warn">Press me</button>
-	<button mat-raised-button color="primary">Press me</button>
-	<button mat-raised-button color="accent">Press me</button>
-	<button mat-raised-button color="warn">Press me</button>
-
+	<button (click)="getAllUsers()">Get all users</button>
 </div>
 

@@ -17,6 +17,7 @@ namespace PostPalBackend.Models
 
 		public bool? IsBanned { get; set; }
 
+		[JsonIgnore]
 		public UserProfile? Profile { get; set; }
 	}
 }

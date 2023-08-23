@@ -1,0 +1,82 @@
+/// <reference path="../../../theme/colors" />
+@use "colors" as *;
+/// <reference path="../../../theme/mixins" />
+@use "mixins" as *;
+
+:host {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	background-color: $body-bkg-color;
+	@include inner-top-shadow;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 300px;
+	padding: 0;
+	@include floating-content;
+}
+
+.header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	padding: 16px 0;
+	border-bottom: 1px solid $primary-800;
+
+	.title {
+		color: $primary-900;
+		margin: 0;
+		text-align: center;
+	}
+}
+
+.content {
+	$hpadding: 32px;
+	$vpadding: 32px;
+
+	width: calc(100% - 2 * $hpadding);
+	padding: $vpadding $hpadding;
+
+	.create-account {
+		margin-top: 8px;
+
+		.register-link {
+			cursor: pointer;
+			color: $primary;
+			text-decoration: none;
+			font-weight: bold;
+		}
+	}
+}
+
+.login-form {
+	.login-form-field {
+		width: 100%;
+
+		.form-field-icon-button {
+			margin-left: 8px;
+			cursor: pointer;
+		}
+	}
+
+	.login-form-field:not(:last-child) {
+		margin-bottom: 8px;
+	}
+
+	.login-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: 32px;
+		margin-left: auto;
+		margin-right: auto;
+		width: 112px;
+	}
+}

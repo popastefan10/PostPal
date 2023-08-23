@@ -1,5 +1,7 @@
+/// <reference path="../../../theme/_variables.scss" />
+/// <reference path="../../../theme/_colors.scss" />
 @use "variables" as *;
-@use "colors" as *;
+@use "colors" as colors;
 
 :host {
 	display: flex;
@@ -7,8 +9,8 @@
 	align-items: inherit;
 	justify-content: space-between;
 	height: calc($navbar-height - 2 * $navbar-padding);
-	background-color: $primary-800;
-	color: $pure-white;
+	background-color: colors.$primary;
+	color: colors.$pure-white;
 	padding: 8px;
 }
 

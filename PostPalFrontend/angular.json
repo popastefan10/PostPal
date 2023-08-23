@@ -6,6 +6,12 @@
 		"@schematics/angular:component": {
 			"style": "scss",
 			"path": "src/app/components"
+		},
+		"@schematics/angular:service": {
+			"path": "src/app/services"
+		},
+		"@schematics/angular:pipe": {
+			"path": "src/app/pipes"
 		}
 	},
 	"projects": {

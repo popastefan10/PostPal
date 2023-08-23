@@ -1,7 +1,20 @@
 @use '@angular/material' as mat;
+/// <reference path="_palettes.scss" />
 @use "palettes" as palettes;
-
+ 
 $primary: mat.get-color-from-palette(palettes.$PostPalFrontend-primary);
 $primary-800: mat.get-color-from-palette(palettes.$PostPalFrontend-primary, 800);
+$primary-900: mat.get-color-from-palette(palettes.$PostPalFrontend-primary, 900);
 
 $pure-white: #ffffff;
+$pure-black: #000000;
+
+$gray-100: mat.get-color-from-palette(mat.$gray-palette, 100);
+$gray-300: mat.get-color-from-palette(mat.$gray-palette, 400);
+$gray-800: mat.get-color-from-palette(mat.$gray-palette, 800);
+
+$blue-gray-50: mat.get-color-from-palette(mat.$blue-gray-palette, 50);
+$blue-gray-100: mat.get-color-from-palette(mat.$blue-gray-palette, 200);
+
+$body-bkg-color: $blue-gray-50;
+$shadow-color: $gray-800;

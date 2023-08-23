@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { catchError, tap } from 'rxjs';
+import { UserService } from './services/user.service';
 
 @Component({
 	selector: 'app-root',
@@ -8,26 +8,11 @@ import { catchError, tap } from 'rxjs';
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-	public forecasts?: WeatherForecast[];
-
-	constructor (http: HttpClient) {
-		http.get<WeatherForecast[]>('/weatherforecast').pipe(
-			tap(result => {
-				this.forecasts = result;
-			}),
-			catchError(error => {
-				console.error(error);
-
-				throw error;
-			})).subscribe();
-	}
+	constructor(http: HttpClient, private readonly userService: UserService) { }
 
 	title = 'PostPalFrontend';
-}
 
-interface WeatherForecast {
-	date: string;
-	temperatureC: number;
-	temperatureF: number;
-	summary: string;
+	public getAllUsers(): void {
+		this.userService.getAll().subscribe(console.log);
+	}
 }
