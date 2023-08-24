@@ -47,10 +47,10 @@
 	width: calc(100% - 2 * $hpadding);
 	padding: $vpadding $hpadding;
 
-	.create-account {
+	.login {
 		margin-top: 8px;
 
-		.register-link {
+		.login-link {
 			cursor: pointer;
 			color: $primary;
 			text-decoration: none;
@@ -59,8 +59,8 @@
 	}
 }
 
-.login-form {
-	.login-form-field {
+.register-form {
+	.register-form-field {
 		width: 100%;
 
 		.form-field-icon-button {
@@ -69,11 +69,11 @@
 		}
 	}
 
-	.login-form-field:not(:last-child) {
+	.register-form-field:not(:last-child) {
 		margin-bottom: 8px;
 	}
 
-	.login-button {
+	.register-button {
 		display: flex;
 		align-items: center;
 		justify-content: center;

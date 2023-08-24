@@ -30,6 +30,10 @@ namespace PostPalBackend.Services.UserService
 			{
 				return null;
 			}
+			if (_userRepository.FindByEmail(user.Email) != null)
+			{
+				throw new ProjectException(ProjectStatusCodes.Http400BadRequest, "Email already exists.");
+			}
 			_userRepository.Create(user);
 			_userRepository.Save();
 

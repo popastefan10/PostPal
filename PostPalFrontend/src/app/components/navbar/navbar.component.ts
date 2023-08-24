@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { routePaths } from '../../app-routing.module';
+import { RoutePaths } from '../../app-routing.module';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -18,6 +18,6 @@ export class NavbarComponent implements OnInit {
 
 	public logout(): void {
 		this.userService.logout();
-		this.router.navigateByUrl(routePaths.login);
+		this.router.navigateByUrl(RoutePaths.login);
 	}
 }
