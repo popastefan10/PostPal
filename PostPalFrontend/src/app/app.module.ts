@@ -9,7 +9,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './components/login/login.component';
 import { JwtModule } from '@auth0/angular-jwt';
-import { getToken } from './shared/utils';
+import { getToken } from './utils/token.util';
 
 @NgModule({
 	declarations: [

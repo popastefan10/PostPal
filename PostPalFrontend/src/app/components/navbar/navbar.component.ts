@@ -1,13 +1,23 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { routePaths } from '../../app-routing.module';
+import { UserService } from '../../services/user.service';
 
 @Component({
-  selector: 'pal-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+	selector: 'pal-navbar',
+	templateUrl: './navbar.component.html',
+	styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  constructor () { }
+	public readonly isLoggedIn$ = this.userService.isLoggedIn$;
 
-  ngOnInit(): void {
-  }
+	constructor(private readonly userService: UserService, private readonly router: Router) { }
+
+	ngOnInit(): void {
+	}
+
+	public logout(): void {
+		this.userService.logout();
+		this.router.navigateByUrl(routePaths.login);
+	}
 }
