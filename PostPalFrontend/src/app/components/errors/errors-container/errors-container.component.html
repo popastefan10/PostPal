@@ -1,0 +1,7 @@
+<ng-container *ngIf="errors$ | async as errors">
+	<pal-error-card *ngFor="let error of errors; let index = index"
+									class="error-card"
+									[error]="error"
+									(close)="closeError(index)"
+									@slideTopDownFadeAway></pal-error-card>
+</ng-container>

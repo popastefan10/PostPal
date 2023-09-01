@@ -11,6 +11,8 @@ import { LoginComponent } from './components/login/login.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { getToken } from './utils/token.util';
 import { RegisterComponent } from './components/register/register.component';
+import { ErrorCardComponent } from './components/errors/error-card/error-card.component';
+import { ErrorsContainerComponent } from './components/errors/errors-container/errors-container.component';
 
 @NgModule({
 	declarations: [
@@ -18,6 +20,8 @@ import { RegisterComponent } from './components/register/register.component';
 		NavbarComponent,
 		LoginComponent,
 		RegisterComponent,
+		ErrorCardComponent,
+		ErrorsContainerComponent,
 	],
 	imports: [
 		BrowserModule, HttpClientModule, BrowserAnimationsModule, AppRoutingModule, MaterialModule, SharedModule, JwtModule.forRoot({

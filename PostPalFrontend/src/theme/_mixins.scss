@@ -10,3 +10,23 @@
 	background-color: $pure-white;
 	box-shadow: 0 1px 2px $blue-gray-100;
 }
+
+@mixin icon-button($size) {
+	display: flex;
+	height: $size;
+	width: $size;
+	margin: 0;
+	padding: 0;
+
+	::ng-deep .mat-mdc-button-touch-target {
+		height: $size;
+		width: $size;
+	}
+}
+
+@mixin mat-icon($size, $font-size: calc($size * 5 / 8)) {
+	font-size: $font-size;
+	line-height: $size;
+	height: $size;
+	width: $size;
+}

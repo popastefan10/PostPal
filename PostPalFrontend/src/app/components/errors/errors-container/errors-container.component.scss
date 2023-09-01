@@ -1,0 +1,12 @@
+:host {
+	position: absolute;
+	top: 24px;
+	left: 0;
+	width: 100%;
+}
+
+.error-card {
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, 0);
+}

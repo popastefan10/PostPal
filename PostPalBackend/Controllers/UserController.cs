@@ -34,7 +34,7 @@ namespace PostPalBackend.Controllers
 			var userResponse = _userService.Register(dto);
 			if (userResponse == null)
 			{
-				return new BadRequestObjectResult("Something went wrong during register! Please try again.");
+				throw new ProjectException(ProjectStatusCodes.Http400BadRequest, "Something went wrong during register! Please try again.");
 			}
 
 			return Ok(userResponse);
@@ -46,7 +46,7 @@ namespace PostPalBackend.Controllers
 			var userResponse = _userService.Authenticate(userRequest);
 			if (userResponse == null)
 			{
-				return new BadRequestObjectResult("Username or password is invalid.");
+				throw new ProjectException(ProjectStatusCodes.Http400BadRequest, "Username or password is invalid.");
 			}
 
 			return Ok(userResponse);
@@ -59,7 +59,7 @@ namespace PostPalBackend.Controllers
 			var user = _userService.GetById(userId);
 			if (user == null)
 			{
-				return NotFound("User not found.");
+				throw new ProjectException(ProjectStatusCodes.Http404NotFound, "User not found.");
 			}
 
 			return Ok(_userService.Ban(user));
@@ -72,7 +72,7 @@ namespace PostPalBackend.Controllers
 			var user = _userService.GetById(userId);
 			if (user == null)
 			{
-				return NotFound("User not found.");
+				throw new ProjectException(ProjectStatusCodes.Http404NotFound, "User not found.");
 			}
 
 			return Ok(_userService.RemoveBan(user));

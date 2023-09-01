@@ -1,0 +1,29 @@
+/// <reference path="../../../../theme/mixins" />
+@use "mixins" as *;
+
+:host {
+	@include floating-content;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 8px;
+}
+
+.error-icon {
+	@include mat-icon(24px);
+}
+
+.error-details {
+	margin: 0;
+}
+
+.close-button {
+	$button-size: 20px;
+	@include icon-button($button-size);
+	margin-left: 16px;
+
+	mat-icon {
+		@include mat-icon($button-size);
+		display: block;
+	}
+}

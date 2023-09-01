@@ -2,6 +2,7 @@
 
 namespace PostPalBackend.Helpers.Exceptions
 {
+	// Keep in sync with frontend implementation
 	public static class ProjectStatusCodes
 	{
 		public enum Code
