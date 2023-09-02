@@ -59,6 +59,11 @@ namespace PostPalBackend.Services.UserService
 			return new UserAuthResponseDTO(user, token);
 		}
 
+		public bool IsValidToken(string token)
+		{
+			return _jwtUtils.ValidateJwtToken(token) != Guid.Empty;
+		}
+
 		public User Ban(User user)
 		{
 			user.IsBanned = true;

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { tap, Observable, map, BehaviorSubject, takeUntil } from 'rxjs';
+import { tap, Observable, map, BehaviorSubject, takeUntil, of } from 'rxjs';
 import { UserAuthRequestDto } from '../models/dtos/user/user-auth-request.dto';
 import { UserAuthResponseDto } from '../models/dtos/user/user-auth-response.dto';
 import { UserRegisterRequestDto } from '../models/dtos/user/user-register-request.dto';
@@ -46,6 +46,21 @@ export class UserService extends SubscriptionCleanup {
 			tap((response: UserAuthResponseDto) => setToken(response.token)),
 			tap(() => this.isLoggedInSubject.next(true))
 		);
+	}
+
+	public isMyTokenValid(): Observable<boolean> {
+		const myToken = getToken();
+		if (myToken === null) {
+			return of(false);
+		}
+
+		return this.apiService.post<boolean>(`${this.route}/is-token-valid`, { token: myToken })
+			.pipe(tap(isValid => {
+				if (!isValid) {
+					deleteToken();
+					this.isLoggedInSubject.next(false);
+				}
+			}));
 	}
 
 	public logout(): void {

@@ -7,18 +7,24 @@ import { CreateProfileComponent } from './components/create-profile/create-profi
 import { TestComponent } from './components/test/test.component';
 import { HasProfileGuard } from './guards/has-profile.guard';
 import { DoesNotHaveProfileGuard } from './guards/does-not-have-profile.guard';
+import { ProfileComponent } from './components/profile/profile.component';
+import { IsLoggedInGuard } from './guards/is-logged-in.guard';
 
 export const RoutePaths = {
 	home: '/',
 	login: 'login',
 	register: 'register',
 	createProfile: 'create-profile',
+	myProfile: 'profile/me',
+	profile: 'profile',
 }
 
 const routes: Routes = [
 	{ path: RoutePaths.login, component: LoginComponent },
 	{ path: RoutePaths.register, component: RegisterComponent },
-	{ path: RoutePaths.createProfile, component: CreateProfileComponent, canActivate: [DoesNotHaveProfileGuard] },
+	{ path: RoutePaths.createProfile, component: CreateProfileComponent, canActivate: [IsLoggedInGuard, DoesNotHaveProfileGuard] },
+	{ path: RoutePaths.myProfile, component: ProfileComponent, canActivate: [IsLoggedInGuard, HasProfileGuard] },
+	{ path: RoutePaths.profile + '/:id', component: ProfileComponent },
 	{ path: 'test', component: TestComponent, canActivate: [HasProfileGuard] },
 	{ path: '', redirectTo: RoutePaths.home, pathMatch: 'full' },
 ];

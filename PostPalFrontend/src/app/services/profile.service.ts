@@ -60,6 +60,6 @@ export class ProfileService extends SubscriptionCleanup {
 	public getByIds(ids: string[]): Observable<UserProfile[]> {
 		const idsString = ids.join(',');
 
-		return this.apiService.get<UserProfile[]>(`${this.route}?ids=${idsString}`);
+		return this.apiService.get<UserProfile[]>(`${this.route}/${idsString}`);
 	}
 }

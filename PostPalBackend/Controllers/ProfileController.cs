@@ -65,7 +65,18 @@ namespace PostPalBackend.Controllers
 		[HttpGet("{idsString}")]
 		public List<UserProfile> GetByIds([FromRoute] string idsString)
 		{
-			Guid[] ids = idsString.Split(',').Select(Guid.Parse).ToArray();
+			Guid[] ids = idsString.Split(',').Select(id =>
+			{
+				try
+				{
+					return Guid.Parse(id);
+				}
+				catch
+				{
+					throw new ProjectException(ProjectStatusCodes.Http400BadRequest, "Invalid id format.");
+				}
+
+			}).ToArray();
 			var profiles = _profileService.GetByIds(ids);
 
 			return profiles;

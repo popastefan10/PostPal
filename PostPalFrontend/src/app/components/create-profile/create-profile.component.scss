@@ -73,8 +73,7 @@
 
 	.profile-picture {
 		@include mat-icon($preview-size);
-		border-radius: 8px;
-		object-fit: contain;
+		@include img-icon($preview-size, 8px);	
 	}
 
 	.overlay {

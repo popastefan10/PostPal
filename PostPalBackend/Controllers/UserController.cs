@@ -52,6 +52,12 @@ namespace PostPalBackend.Controllers
 			return Ok(userResponse);
 		}
 
+		[HttpPost("is-token-valid")]
+		public bool IsValidToken(UserIsTokenValidDTO dto)
+		{
+			return _userService.IsValidToken(dto.Token);
+		}
+
 		[HttpPost("{userId}/ban")]
 		[Authorization(Role.Admin)]
 		public IActionResult Ban([FromRoute] Guid userId)

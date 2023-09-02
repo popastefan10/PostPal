@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { map, Observable, of } from 'rxjs';
+import { RoutePaths } from '../app-routing.module';
 import { ProfileService } from '../services/profile.service';
 
 @Injectable({
@@ -14,9 +15,9 @@ export class DoesNotHaveProfileGuard implements CanActivate {
 		state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
 		if (this.profileService.currentProfileExists) {
-			return of(this.router.createUrlTree(['/'])); // TODO - change to profile page
+			return of(this.router.createUrlTree([RoutePaths.myProfile]));
 		}
 		return this.profileService.hasProfile()
-			.pipe(map(exists => exists ? this.router.createUrlTree(['/']) : true)); // TODO - change to profile page
+			.pipe(map(exists => exists ? this.router.createUrlTree([RoutePaths.myProfile]) : true));
 	}
 }

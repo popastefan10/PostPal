@@ -1,0 +1,15 @@
+<div class="container">
+	<ng-container *ngIf="profile$ | async as profile; else profileNotFound">
+		<div class="profile-picture-container">
+			<img *ngIf="profile.profilePictureUrl" class="profile-picture img-profile" [src]="profile.profilePictureUrl" />
+			<mat-icon *ngIf="!profile.profilePictureUrl" class="profile-picture icon-profile">person</mat-icon>
+		</div>
+		<div class="name">{{profile.firstName}}&nbsp;{{profile.lastName}}</div>
+		<div class="bio">{{profile.bio}}</div>
+	</ng-container>
+</div>
+
+
+<ng-template #profileNotFound>
+	<p>Profile not found!</p>
+</ng-template>

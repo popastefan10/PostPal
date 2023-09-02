@@ -10,6 +10,8 @@ namespace PostPalBackend.Services.UserService
 
 		UserAuthResponseDTO? Authenticate(UserAuthRequestDTO requestDTO);
 
+		bool IsValidToken(string token);
+
 		User Ban(User user);
 
 		User RemoveBan(User user);

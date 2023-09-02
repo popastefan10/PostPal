@@ -33,3 +33,10 @@
 	width: $size;
 	text-align: center;
 }
+
+@mixin img-icon($size, $border-radius: 50%) {
+	height: $size;
+	width: $size;
+	object-fit: cover;
+	border-radius: $border-radius;
+}

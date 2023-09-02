@@ -15,6 +15,7 @@ import { ErrorCardComponent } from './components/errors/error-card/error-card.co
 import { CreateProfileComponent } from './components/create-profile/create-profile.component';
 import { ErrorsContainerComponent } from './components/errors/errors-container/errors-container.component';
 import { TestComponent } from './components/test/test.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
 	declarations: [
@@ -26,6 +27,7 @@ import { TestComponent } from './components/test/test.component';
 		ErrorsContainerComponent,
 		CreateProfileComponent,
 		TestComponent,
+		ProfileComponent,
 	],
 	imports: [
 		BrowserModule, HttpClientModule, BrowserAnimationsModule, AppRoutingModule, MaterialModule, SharedModule, JwtModule.forRoot({
