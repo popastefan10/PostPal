@@ -11,9 +11,7 @@ export class ErrorService {
 	private readonly errorsSubject = new BehaviorSubject<BackendException[]>([]);
 	public readonly errors$ = this.errorsSubject.asObservable();
 
-	constructor() {
-		this.errors$.subscribe(console.log);
-	}
+	constructor() { }
 
 	private addProjectException(error: BackendException): void {
 		const errors = this.errorsSubject.value;

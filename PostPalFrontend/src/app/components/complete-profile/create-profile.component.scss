@@ -1,0 +1,132 @@
+/// <reference path="../../../theme/colors" />
+@use "colors" as *;
+/// <reference path="../../../theme/mixins" />
+@use "mixins" as *;
+
+:host {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	background-color: $body-bkg-color;
+	@include inner-top-shadow;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 300px;
+	padding: 0;
+	@include floating-content;
+}
+
+.header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	padding: 16px 0;
+	border-bottom: 1px solid $primary-800;
+
+	.title {
+		color: $primary-900;
+		margin: 0;
+		text-align: center;
+	}
+}
+
+.content {
+	$hpadding: 32px;
+	$vpadding: 32px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: calc(100% - 2 * $hpadding);
+	padding: $vpadding $hpadding;
+}
+
+.profile-picture-field {
+	$preview-size: 64px;
+
+	.profile-picture-container {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: $preview-size;
+		height: $preview-size;
+	}
+
+	.profile-picture-container:hover {
+		.overlay {
+			opacity: 0.5;
+		}
+
+		.choose-photo-button {
+			opacity: 1;
+		}
+	}
+
+	.profile-picture {
+		@include mat-icon($preview-size);
+		border-radius: 8px;
+		object-fit: contain;
+	}
+
+	.overlay {
+		position: absolute;
+		z-index: 1;
+		width: 100%;
+		height: 100%;
+		background-color: $gray-600;
+		border-radius: 8px;
+		opacity: 0;
+		transition: opacity 250ms linear;
+	}
+
+	.choose-photo-button {
+		$button-size: 24px;
+		@include icon-button($button-size);
+		position: absolute;
+		z-index: 1;
+		width: $button-size;
+		height: $button-size;
+		border-radius: 50%;
+		color: $pure-white;
+		opacity: 0;
+		transition: opacity 250ms linear;
+
+		mat-icon {
+			@include mat-icon($button-size);
+			display: block;
+		}
+	}
+
+	.file-input {
+		display: none;
+	}
+}
+
+.create-profile-form {
+	.create-profile-form-field {
+		width: 100%;
+	}
+
+	.create-profile-form-field:not(:last-child) {
+		margin-bottom: 8px;
+	}
+
+	.create-profile-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: 32px;
+		margin-left: auto;
+		margin-right: auto;
+		width: 112px;
+	}
+}

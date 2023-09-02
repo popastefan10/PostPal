@@ -10,7 +10,9 @@ $pure-white: #ffffff;
 $pure-black: #000000;
 
 $gray-100: mat.get-color-from-palette(mat.$gray-palette, 100);
-$gray-300: mat.get-color-from-palette(mat.$gray-palette, 400);
+$gray-300: mat.get-color-from-palette(mat.$gray-palette, 300);
+$gray-400: mat.get-color-from-palette(mat.$gray-palette, 400);
+$gray-600: mat.get-color-from-palette(mat.$gray-palette, 600);
 $gray-800: mat.get-color-from-palette(mat.$gray-palette, 800);
 
 $blue-gray-50: mat.get-color-from-palette(mat.$blue-gray-palette, 50);

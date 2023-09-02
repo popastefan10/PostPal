@@ -12,7 +12,9 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { getToken } from './utils/token.util';
 import { RegisterComponent } from './components/register/register.component';
 import { ErrorCardComponent } from './components/errors/error-card/error-card.component';
+import { CreateProfileComponent } from './components/complete-profile/create-profile.component';
 import { ErrorsContainerComponent } from './components/errors/errors-container/errors-container.component';
+import { TestComponent } from './components/test/test.component';
 
 @NgModule({
 	declarations: [
@@ -22,6 +24,8 @@ import { ErrorsContainerComponent } from './components/errors/errors-container/e
 		RegisterComponent,
 		ErrorCardComponent,
 		ErrorsContainerComponent,
+		CreateProfileComponent,
+		TestComponent,
 	],
 	imports: [
 		BrowserModule, HttpClientModule, BrowserAnimationsModule, AppRoutingModule, MaterialModule, SharedModule, JwtModule.forRoot({

@@ -13,6 +13,8 @@
 
 @mixin icon-button($size) {
 	display: flex;
+	flex-direction: row;
+	align-items: center;
 	height: $size;
 	width: $size;
 	margin: 0;
@@ -29,4 +31,5 @@
 	line-height: $size;
 	height: $size;
 	width: $size;
+	text-align: center;
 }

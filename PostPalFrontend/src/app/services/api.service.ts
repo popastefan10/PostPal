@@ -18,38 +18,18 @@ export class ApiService {
 	}
 
 	get<T>(path: string, params = {}): Observable<T> {
-		return this.httpClient
-			.get<T>(`${this.apiUrl}${path}`, { params })
-			.pipe(catchError(error => {
-				this.errorService.handleError(error);
-				throw error;
-			}));
+		return this.httpClient.get<T>(`${this.apiUrl}${path}`, { params });
 	}
 
 	put<T>(path: string, body = {}): Observable<T> {
-		return this.httpClient
-			.put<T>(`${this.apiUrl}${path}`, body)
-			.pipe(catchError(error => {
-				this.errorService.handleError(error);
-				throw error;
-			}));
+		return this.httpClient.put<T>(`${this.apiUrl}${path}`, body);
 	}
 
 	post<T>(path: string, body = {}): Observable<T> {
-		return this.httpClient
-			.post<T>(`${this.apiUrl}${path}`, body)
-			.pipe(catchError(error => {
-				this.errorService.handleError(error);
-				throw error;
-			}));
+		return this.httpClient.post<T>(`${this.apiUrl}${path}`, body);
 	}
 
 	delete<T>(path: string): Observable<T> {
-		return this.httpClient
-			.delete<T>(`${this.apiUrl}${path}`)
-			.pipe(catchError(error => {
-				this.errorService.handleError(error);
-				throw error;
-			}));
+		return this.httpClient.delete<T>(`${this.apiUrl}${path}`);
 	}
 }

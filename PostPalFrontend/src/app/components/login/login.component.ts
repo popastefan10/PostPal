@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs';
+import { catchError, tap } from 'rxjs';
 import { RoutePaths } from '../../app-routing.module';
 import { UserAuthRequestDto } from '../../models/dtos/user/user-auth-request.dto';
+import { ErrorService } from '../../services/error.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -19,7 +20,12 @@ export class LoginComponent implements OnInit {
 
 	public isPasswordVisible: boolean = false;
 
-	constructor(private readonly formBuilder: FormBuilder, private readonly userService: UserService, private readonly router: Router) { }
+	constructor(
+		private readonly formBuilder: FormBuilder,
+		private readonly router: Router,
+		private readonly userService: UserService,
+		private readonly errorService: ErrorService
+	) { }
 
 	public ngOnInit(): void { }
 
@@ -28,7 +34,10 @@ export class LoginComponent implements OnInit {
 			email: this.email.value,
 			password: this.password.value
 		};
-		this.userService.login(dto).pipe(tap(() => this.router.navigateByUrl(RoutePaths.home))).subscribe();
+		this.userService.login(dto).pipe(tap(() => this.router.navigateByUrl(RoutePaths.home)), catchError(error => {
+			this.errorService.handleError(error);
+			throw error;
+		})).subscribe();
 	}
 
 	public get email(): FormControl {

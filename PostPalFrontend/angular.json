@@ -12,6 +12,9 @@
 		},
 		"@schematics/angular:pipe": {
 			"path": "src/app/pipes"
+		},
+		"@schematics/angular:guard": {
+			"path": "src/app/guards"
 		}
 	},
 	"projects": {

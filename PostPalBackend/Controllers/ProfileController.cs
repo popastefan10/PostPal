@@ -32,6 +32,16 @@ namespace PostPalBackend.Controllers
 			return _mapper.Map<ProfileResponseDTO>(profile);
 		}
 
+		[HttpPost("has-profile")]
+		[Authorization(Role.User, Role.Admin)]
+		public bool HasProfile()
+		{
+			var user = this.GetUserFromHttpContext();
+			var profile = _profileService.GetByUserId(user.Id);
+
+			return profile != null;
+		}
+
 		[HttpGet()]
 		[Authorization(Role.User, Role.Admin)]
 		public List<ProfileResponseDTO> GetAll()
@@ -41,8 +51,17 @@ namespace PostPalBackend.Controllers
 			return profiles.Select(p => _mapper.Map<ProfileResponseDTO>(p)).ToList();
 		}
 
-		[HttpGet("{idsString}")]
+		[HttpGet("me")]
 		[Authorization(Role.User, Role.Admin)]
+		public ProfileResponseDTO GetMyProfile()
+		{
+			var user = this.GetUserFromHttpContext();
+			var profile = _profileService.GetByUserId(user.Id) ?? throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Profile not found.");
+
+			return _mapper.Map<ProfileResponseDTO>(profile);
+		}
+
+		[HttpGet("{idsString}")]
 		public List<ProfileResponseDTO> GetByIds([FromRoute] string idsString)
 		{
 			Guid[] ids = idsString.Split(',').Select(Guid.Parse).ToArray();
