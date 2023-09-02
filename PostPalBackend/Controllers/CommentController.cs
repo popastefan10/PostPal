@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PostPalBackend.Helpers.Attributes;
+using PostPalBackend.Models;
 using PostPalBackend.Models.DTOs.CommentDTOs;
-using PostPalBackend.Models.DTOs.ProfileDTOs;
 using PostPalBackend.Models.Enums;
 using PostPalBackend.Services.CommentService;
 
@@ -37,7 +37,7 @@ namespace PostPalBackend.Controllers
 			return new CommentWithProfileResponseDTO
 			{
 				Comment = _mapper.Map<CommentResponseDTO>(comment),
-				Profile = _mapper.Map<ProfileResponseDTO>(comment.User.Profile)
+				Profile = _mapper.Map<UserProfile>(comment.User.Profile)
 			};
 		}
 	}

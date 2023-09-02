@@ -15,7 +15,6 @@ namespace PostPalBackend.Helpers.Mappers
 			CreateMap<User, UserRegisterResponseDTO>();
 
 			CreateMap<ProfileCreateDTO, UserProfile>();
-			CreateMap<UserProfile, ProfileResponseDTO>();
 
 			CreateMap<PostCreateDTO, Post>();
 			CreateMap<Post, PostResponseDTO>();

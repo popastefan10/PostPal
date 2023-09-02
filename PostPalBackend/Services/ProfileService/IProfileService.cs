@@ -16,5 +16,7 @@ namespace PostPalBackend.Services.ProfileService
 		UserProfile? GetByUserId(Guid userId);
 
 		void Update(UserProfile profile, ProfileUpdateDTO dto);
+
+		void Delete(UserProfile profile);
 	}
 }

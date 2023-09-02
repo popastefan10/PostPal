@@ -90,5 +90,11 @@ namespace PostPalBackend.Services.ProfileService
 			_profileRepository.Update(profile);
 			_profileRepository.Save();
 		}
+
+		public void Delete(UserProfile profile)
+		{
+			_profileRepository.Delete(profile);
+			_profileRepository.Save();
+		}
 	}
 }

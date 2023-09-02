@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PostPalBackend.Helpers.Attributes;
 using PostPalBackend.Helpers.Exceptions;
 using PostPalBackend.Helpers.Extensions;
+using PostPalBackend.Models;
 using PostPalBackend.Models.DTOs.ProfileDTOs;
 using PostPalBackend.Models.Enums;
 using PostPalBackend.Services.ProfileService;
@@ -24,12 +25,12 @@ namespace PostPalBackend.Controllers
 
 		[HttpPost()]
 		[Authorization(Role.User, Role.Admin)]
-		public ProfileResponseDTO Create([FromForm] ProfileCreateDTO dto)
+		public UserProfile Create([FromForm] ProfileCreateDTO dto)
 		{
 			var user = this.GetUserFromHttpContext();
 			var profile = _profileService.Create(dto, user.Id);
 
-			return _mapper.Map<ProfileResponseDTO>(profile);
+			return profile;
 		}
 
 		[HttpPost("has-profile")]
@@ -44,35 +45,35 @@ namespace PostPalBackend.Controllers
 
 		[HttpGet()]
 		[Authorization(Role.User, Role.Admin)]
-		public List<ProfileResponseDTO> GetAll()
+		public List<UserProfile> GetAll()
 		{
 			var profiles = _profileService.GetAll();
 
-			return profiles.Select(p => _mapper.Map<ProfileResponseDTO>(p)).ToList();
+			return profiles;
 		}
 
 		[HttpGet("me")]
 		[Authorization(Role.User, Role.Admin)]
-		public ProfileResponseDTO GetMyProfile()
+		public UserProfile GetMe()
 		{
 			var user = this.GetUserFromHttpContext();
 			var profile = _profileService.GetByUserId(user.Id) ?? throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Profile not found.");
 
-			return _mapper.Map<ProfileResponseDTO>(profile);
+			return profile;
 		}
 
 		[HttpGet("{idsString}")]
-		public List<ProfileResponseDTO> GetByIds([FromRoute] string idsString)
+		public List<UserProfile> GetByIds([FromRoute] string idsString)
 		{
 			Guid[] ids = idsString.Split(',').Select(Guid.Parse).ToArray();
 			var profiles = _profileService.GetByIds(ids);
 
-			return profiles.Select(p => _mapper.Map<ProfileResponseDTO>(p)).ToList();
+			return profiles;
 		}
 
 		[HttpPatch("me")]
 		[Authorization(Role.User, Role.Admin)]
-		public ProfileResponseDTO Update([FromForm] ProfileUpdateDTO dto)
+		public UserProfile Update([FromForm] ProfileUpdateDTO dto)
 		{
 			var user = this.GetUserFromHttpContext();
 			var profile = _profileService.GetByUserId(user.Id) ?? throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Profile not found.");
@@ -82,7 +83,18 @@ namespace PostPalBackend.Controllers
 			}
 			_profileService.Update(profile, dto);
 
-			return _mapper.Map<ProfileResponseDTO>(profile);
+			return profile;
+		}
+
+		[HttpDelete("me")]
+		[Authorization(Role.User, Role.Admin)]
+		public UserProfile DeleteMe()
+		{
+			var user = this.GetUserFromHttpContext();
+			var profile = _profileService.GetByUserId(user.Id) ?? throw new ProjectException(ProjectStatusCodes.Http404NotFound, "Profile not found.");
+			_profileService.Delete(profile);
+
+			return profile;
 		}
 	}
 }
