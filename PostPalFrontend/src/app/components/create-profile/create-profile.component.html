@@ -7,10 +7,12 @@
 			<mat-form-field class="create-profile-form-field">
 				<mat-label>First name</mat-label>
 				<input matInput type="text" formControlName="firstName" />
+				<mat-error *ngIf="firstName && firstName.invalid">{{ firstName| formControlErrorMessage : firstName.errors }}</mat-error>
 			</mat-form-field>
 			<mat-form-field class="create-profile-form-field">
 				<mat-label>Last name</mat-label>
 				<input matInput type="text" formControlName="lastName" />
+				<mat-error *ngIf="lastName && lastName.invalid">{{ lastName| formControlErrorMessage : lastName.errors }}</mat-error>
 			</mat-form-field>
 			<mat-form-field class="create-profile-form-field">
 				<mat-label>Bio</mat-label>
