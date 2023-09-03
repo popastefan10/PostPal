@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FormControlErrorMessagePipe } from '../pipes/form-control-error-message.pipe';
 
@@ -9,6 +9,7 @@ const PIPES = [FormControlErrorMessagePipe];
 	exports: [
 		RouterModule,
 		ReactiveFormsModule,
+		FormsModule,
 		...PIPES,
 	],
 	declarations: [...PIPES],

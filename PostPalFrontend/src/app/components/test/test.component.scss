@@ -1,0 +1,30 @@
+:host {
+	display: flex;
+	flex-direction: column;
+}
+
+.endpoints {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 16px 0 0 16px;
+
+	.endpoint {
+		display: block;
+		width: fit-content;
+		margin-left: 16px;
+	}
+
+	.endpoint:not(:last-child) {
+		margin-bottom: 16px;
+	}
+
+	.endpoint-field {
+		width: fit-content;
+		margin: 0 0 8px 16px;
+	}
+}
+
+.controller-name {
+	font-weight: bold;
+}

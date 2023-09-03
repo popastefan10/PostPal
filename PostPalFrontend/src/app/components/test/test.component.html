@@ -1,1 +1,28 @@
-<p>test works!</p>
+<div class="endpoints">
+	<p class="controller-name">Users endpoints</p>
+
+	<input class="endpoint-field" type="text" [(ngModel)]="banUserId" placeholder="User id">
+	<button class="endpoint" (click)="banUser()">Ban user</button>
+
+	<input class="endpoint-field" type="text" [(ngModel)]="removeBanUserId" placeholder="User id">
+	<button class="endpoint" (click)="removeBanUser()">Remove ban user</button>
+
+	<button class="endpoint" (click)="getUsers()">Get all users</button>
+
+	<button class="endpoint" (click)="getUserMe()">Get user me</button>
+
+	<input class="endpoint-field" type="text" [(ngModel)]="getPostsUserId" placeholder="User id">
+	<button class="endpoint" (click)="getPostsByUserId()">Get posts by user id</button>
+</div>
+
+<div class="endpoints">
+	<p class="controller-name">Profiles endpoints</p>
+	<button class="endpoint" (click)="getAllProfiles()">Get all profiles</button>
+	<button class="endpoint" (click)="getProfilesByIds()">Get profiles by ids</button>
+</div>
+
+<div class="endpoints">
+	<p class="controller-name">Posts endpoints</p>
+	<button class="endpoint" (click)="getAllPosts()">Get all posts</button>
+</div>
+

@@ -25,8 +25,12 @@ export class ApiService {
 		return this.httpClient.put<T>(`${this.apiUrl}${path}`, body);
 	}
 
-	post<T>(path: string, body = {}): Observable<T> {
+	post<T, TBody = {}>(path: string, body: TBody = {} as TBody): Observable<T> {
 		return this.httpClient.post<T>(`${this.apiUrl}${path}`, body);
+	}
+
+	patch<T, TBody = {}>(path: string, body: TBody = {} as TBody): Observable<T> {
+		return this.httpClient.patch<T>(`${this.apiUrl}${path}`, body);
 	}
 
 	delete<T>(path: string): Observable<T> {

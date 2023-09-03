@@ -2,8 +2,11 @@ import { Injectable } from '@angular/core';
 import { tap, Observable, map, BehaviorSubject, takeUntil, of } from 'rxjs';
 import { UserAuthRequestDto } from '../models/dtos/user/user-auth-request.dto';
 import { UserAuthResponseDto } from '../models/dtos/user/user-auth-response.dto';
+import { UserIsTokenValidDto } from '../models/dtos/user/user-is-token-valid.dto';
 import { UserRegisterRequestDto } from '../models/dtos/user/user-register-request.dto';
 import { UserRegisterResponseDto } from '../models/dtos/user/user-register-response.dto';
+import { UserUpdateDto } from '../models/dtos/user/user-update.dto';
+import { Post } from '../models/interfaces/post';
 import { User } from '../models/interfaces/user';
 import { deserializeUser } from '../utils/deserialization.util';
 import { SubscriptionCleanup } from '../utils/subscription-cleanup';
@@ -35,10 +38,12 @@ export class UserService extends SubscriptionCleanup {
 	}
 
 	public register(dto: UserRegisterRequestDto): Observable<UserRegisterResponseDto> {
-		return this.apiService.post<UserRegisterResponseDto>(`${this.route}/register`, dto).pipe(
-			tap((response: UserRegisterResponseDto) => setToken(response.token)),
-			tap(() => this.isLoggedInSubject.next(true))
-		);
+		return this.apiService
+			.post<UserRegisterResponseDto, UserRegisterRequestDto>(`${this.route}/register`, dto)
+			.pipe(
+				tap((response: UserRegisterResponseDto) => setToken(response.token)),
+				tap(() => this.isLoggedInSubject.next(true))
+			);
 	}
 
 	public login(dto: UserAuthRequestDto): Observable<UserAuthResponseDto> {
@@ -48,13 +53,18 @@ export class UserService extends SubscriptionCleanup {
 		);
 	}
 
+	public logout(): void {
+		deleteToken();
+		this.isLoggedInSubject.next(false);
+	}
+
 	public isMyTokenValid(): Observable<boolean> {
 		const myToken = getToken();
 		if (myToken === null) {
 			return of(false);
 		}
 
-		return this.apiService.post<boolean>(`${this.route}/is-token-valid`, { token: myToken })
+		return this.isTokenValid(myToken)
 			.pipe(tap(isValid => {
 				if (!isValid) {
 					deleteToken();
@@ -63,9 +73,17 @@ export class UserService extends SubscriptionCleanup {
 			}));
 	}
 
-	public logout(): void {
-		deleteToken();
-		this.isLoggedInSubject.next(false);
+	public isTokenValid(token: string): Observable<boolean> {
+		return this.apiService
+			.post<boolean, UserIsTokenValidDto>(`${this.route}/is-token-valid`, { token });
+	}
+
+	public ban(id: string): Observable<void> {
+		return this.apiService.post<void>(`${this.route}/${id}/ban`);
+	}
+
+	public removeBan(id: string): Observable<void> {
+		return this.apiService.post<void>(`${this.route}/${id}/remove-ban`);
 	}
 
 	public getAll(): Observable<User[]> {
@@ -77,5 +95,23 @@ export class UserService extends SubscriptionCleanup {
 			map(deserializeUser),
 			tap((user: User) => this.currentUserSubject.next(user))
 		);
+	}
+
+	public getById(id: string): Observable<User> {
+		return this.apiService.get<User>(`${this.route}/${id}`).pipe(map(deserializeUser));
+	}
+
+	public getPosts(id: string): Observable<Post[]> {
+		return this.apiService.get<Post[]>(`${this.route}/${id}/posts`);
+	}
+
+	public update(id: string, dto: UserUpdateDto): Observable<User> {
+		return this.apiService
+			.patch<User, UserUpdateDto>(`${this.route}/${id}`, dto)
+			.pipe(map(deserializeUser));
+	}
+
+	public delete(id: string): Observable<User> {
+		return this.apiService.delete<User>(`${this.route}/${id}`).pipe(map(deserializeUser));
 	}
 }

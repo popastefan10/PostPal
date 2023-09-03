@@ -17,6 +17,7 @@ export const RoutePaths = {
 	createProfile: 'create-profile',
 	myProfile: 'profile/me',
 	profile: 'profile',
+	test: 'test'
 }
 
 const routes: Routes = [
@@ -25,7 +26,7 @@ const routes: Routes = [
 	{ path: RoutePaths.createProfile, component: CreateProfileComponent, canActivate: [IsLoggedInGuard, DoesNotHaveProfileGuard] },
 	{ path: RoutePaths.myProfile, component: ProfileComponent, canActivate: [IsLoggedInGuard, HasProfileGuard] },
 	{ path: RoutePaths.profile + '/:id', component: ProfileComponent },
-	{ path: 'test', component: TestComponent, canActivate: [HasProfileGuard] },
+	{ path: RoutePaths.test, component: TestComponent },
 	{ path: '', redirectTo: RoutePaths.home, pathMatch: 'full' },
 ];
 
