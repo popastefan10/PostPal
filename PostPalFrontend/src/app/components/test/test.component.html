@@ -17,7 +17,14 @@
 
 <div class="endpoints">
 	<p class="controller-name">Profiles endpoints</p>
+
+	<button class="endpoint" (click)="hasProfile()">Has current user a profile</button>
+
 	<button class="endpoint" (click)="getAllProfiles()">Get all profiles</button>
+
+	<button class="endpoint" (click)="getMeProfile()">Get profile me</button>
+
+	<input class="endpoint-field" type="text" [(ngModel)]="profilesIds" placeholder="Profile ids">
 	<button class="endpoint" (click)="getProfilesByIds()">Get profiles by ids</button>
 </div>
 

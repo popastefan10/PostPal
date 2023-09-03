@@ -20,14 +20,7 @@ export class TestComponent {
 		this.postService.getAll().pipe(tap(console.log)).subscribe();
 	}
 
-	public getAllProfiles(): void {
-		this.profileService.getAll().pipe(tap(console.log)).subscribe();
-	}
-
-	public getProfilesByIds(): void {
-		this.profileService.getByIds(['95c38e5e-f81e-4aa9-a25e-08db9e5348a4']).pipe(tap(console.log)).subscribe();
-	}
-
+	// USER TESTS
 	public banUserId: string = '';
 	public banUser(): void {
 		this.userService.ban(this.banUserId).pipe(tap(console.log)).subscribe();
@@ -49,5 +42,23 @@ export class TestComponent {
 	public getPostsUserId: string = '';
 	public getPostsByUserId(): void {
 		this.userService.getPosts(this.getPostsUserId).pipe(tap(console.log)).subscribe();
+	}
+
+	// PROFILES TESTS
+	public hasProfile(): void {
+		this.profileService.hasProfile().pipe(tap(console.log)).subscribe();
+	}
+
+	public getAllProfiles(): void {
+		this.profileService.getAll().pipe(tap(console.log)).subscribe();
+	}
+
+	public getMeProfile(): void {
+		this.profileService.getMe().pipe(tap(console.log)).subscribe();
+	}
+
+	public profilesIds: string = '';
+	public getProfilesByIds(): void {
+		this.profileService.getByIds(this.profilesIds.split(',')).pipe(tap(console.log)).subscribe();
 	}
 }

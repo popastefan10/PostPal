@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, takeUntil, tap } from 'rxjs';
 import { ProfileCreateDto } from '../models/dtos/profile/profile-create.dto';
+import { ProfileUpdateDto } from '../models/dtos/profile/profile-update.dto';
 import { UserProfile } from '../models/interfaces/user-profile';
 import { SubscriptionCleanup } from '../utils/subscription-cleanup';
 import { ApiService } from './api.service';
@@ -61,5 +62,31 @@ export class ProfileService extends SubscriptionCleanup {
 		const idsString = ids.join(',');
 
 		return this.apiService.get<UserProfile[]>(`${this.route}/${idsString}`);
+	}
+
+	public update(dto: ProfileUpdateDto): Observable<UserProfile> {
+		const formData = new FormData();
+		if (dto.firstName) {
+			formData.append('firstName', dto.firstName);
+		}
+		if (dto.lastName) {
+			formData.append('lastName', dto.lastName);
+		}
+		if (dto.bio) {
+			formData.append('bio', dto.bio);
+		}
+		if (dto.profilePicture) {
+			formData.append('profilePicture', dto.profilePicture);
+		}
+
+		return this.apiService
+			.patch<UserProfile>(`${this.route}`, formData)
+			.pipe(tap(profile => this.currentProfileSubject.next(profile)));
+	}
+
+	public deleteMe(): Observable<UserProfile> {
+		return this.apiService
+			.delete<UserProfile>(`${this.route}/me`)
+			.pipe(tap(() => this.currentProfileSubject.next(null)));
 	}
 }
