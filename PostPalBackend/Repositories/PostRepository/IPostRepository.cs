@@ -10,5 +10,7 @@ namespace PostPalBackend.Repositories.PostRepository
 		Post? GetWithLikes(Guid id);
 
 		public Post? GetWithLikesProfiles(Guid id);
+
+		List<Post> GetAllWithProfiles();
 	}
 }

@@ -54,9 +54,15 @@ namespace PostPalBackend.Controllers
 		}
 
 		[HttpGet("")]
-		public List<PostResponseDTO> GetAll()
+		public PostsWithProfiles GetAll()
 		{
-			return _postService.GetAll().Select(_mapper.Map<PostResponseDTO>).ToList();
+			var postsWithProfiles = _postService.GetAllWithProfiles();
+
+			return new PostsWithProfiles
+			{
+				Posts = postsWithProfiles,
+				Profiles = postsWithProfiles.Select(p => p.User.Profile).OfType<UserProfile>().Distinct().ToDictionary(p => p.UserId)
+			};
 		}
 
 		[HttpGet("{id}")]

@@ -25,5 +25,10 @@ namespace PostPalBackend.Repositories.PostRepository
 		{
 			return this.Table.Include(post => post.PostLikesUsers).ThenInclude(user => user.Profile).Where(post => post.Id == id).FirstOrDefault();
 		}
+
+		public List<Post> GetAllWithProfiles()
+		{
+			return this.Table.Include(post => post.User).ThenInclude(user => user.Profile).ToList();
+		}
 	}
 }

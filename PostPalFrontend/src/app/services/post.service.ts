@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { CommentsWithProfilesDto } from '../models/dtos/comment/comments-with-profiles.dto';
 import { PostCreateDto } from '../models/dtos/post/post-create.dto';
 import { PostUpdateDto } from '../models/dtos/post/post-update.dto';
+import { PostsWithProfilesDto } from '../models/dtos/post/posts-with-profiles.dto';
 import { Post } from '../models/interfaces/post';
 import { UserProfile } from '../models/interfaces/user-profile';
 import { ApiService } from './api.service';
@@ -31,8 +32,8 @@ export class PostService {
 		return this.apiService.post<void>(`${this.route}/${id}/remove-like`);
 	}
 
-	public getAll(): Observable<Post[]> {
-		return this.apiService.get<Post[]>(`${this.route}`);
+	public getAll(): Observable<PostsWithProfilesDto> {
+		return this.apiService.get<PostsWithProfilesDto>(`${this.route}`);
 	}
 
 	public getById(id: string): Observable<Post> {

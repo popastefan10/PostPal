@@ -65,6 +65,11 @@ namespace PostPalBackend.Services.PostService
 			return _postRepository.GetAll();
 		}
 
+		public List<Post> GetAllWithProfiles()
+		{
+			return _postRepository.GetAllWithProfiles();
+		}
+
 		public List<Post> GetAllByUserId(Guid userId)
 		{
 			return _postRepository.GetAll().Where(post => post.UserId == userId).ToList();

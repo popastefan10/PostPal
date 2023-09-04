@@ -11,9 +11,10 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { IsLoggedInGuard } from './guards/is-logged-in.guard';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { PostComponent } from './components/post/post.component';
+import { HomeComponent } from './components/home/home.component';
 
 export const RoutePaths = {
-	home: '/',
+	home: 'home',
 	login: 'login',
 	register: 'register',
 	createProfile: 'create-profile',
@@ -25,6 +26,7 @@ export const RoutePaths = {
 };
 
 const routes: Routes = [
+	{ path: RoutePaths.home, component: HomeComponent },
 	{ path: RoutePaths.login, component: LoginComponent },
 	{ path: RoutePaths.register, component: RegisterComponent },
 	{ path: RoutePaths.createProfile, component: CreateProfileComponent, canActivate: [IsLoggedInGuard, DoesNotHaveProfileGuard] },

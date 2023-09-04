@@ -9,6 +9,8 @@ namespace PostPalBackend.Services.PostService
 
 		List<Post> GetAll();
 
+		List<Post> GetAllWithProfiles();
+
 		List<Post> GetAllByUserId(Guid userId);
 
 		Post? GetById(Guid id);
