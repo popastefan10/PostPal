@@ -1,11 +1,13 @@
-<ng-container *ngIf="{ isLoggedIn: isLoggedIn$ | async } as data">
+<ng-container *ngIf="{ isLoggedIn: isLoggedIn$ | async, myProfile: myProfile$ | async } as data">
 	<div class="left-items">
 		<a mat-button routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page">PostPal</a>
 	</div>
 	<div class="right-items">
 		<a *ngIf="!data.isLoggedIn" mat-button routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">Login</a>
 		<a *ngIf="!data.isLoggedIn" mat-button routerLink="register" routerLinkActive="active" ariaCurrentWhenActive="page">Register</a>
-		<button *ngIf="data.isLoggedIn" mat-button (click)="logout()">Logout</button>
+
+		<pal-profile-picture *ngIf="data.isLoggedIn" class="profile-picture" [profile]="data.myProfile"></pal-profile-picture>
+		<button *ngIf="data.isLoggedIn" mat-button class="logout-button" (click)="logout()">Logout</button>
 	</div>
 </ng-container>
 

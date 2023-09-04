@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RoutePaths } from '../../app-routing.module';
+import { ProfileService } from '../../services/profile.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -11,7 +12,9 @@ import { UserService } from '../../services/user.service';
 export class NavbarComponent implements OnInit {
 	public readonly isLoggedIn$ = this.userService.isLoggedIn$;
 
-	constructor(private readonly userService: UserService, private readonly router: Router) { }
+	public readonly myProfile$ = this.profileService.currentProfile$;
+
+	constructor(private readonly userService: UserService, private readonly profileService: ProfileService, private readonly router: Router) { }
 
 	ngOnInit(): void {
 	}
