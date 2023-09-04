@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
 	public readonly posts$ = this.postsWithProfiles$.pipe(map(postsWithProfiles => postsWithProfiles.posts));
 	public readonly profiles$ = this.postsWithProfiles$.pipe(map(postsWithProfiles => postsWithProfiles.profiles));
 
+	public readonly createPostPath = RoutePaths.createPost;
 	public readonly postPath = RoutePaths.post;
 
 	constructor(private readonly postService: PostService, private readonly profileService: ProfileService) { }

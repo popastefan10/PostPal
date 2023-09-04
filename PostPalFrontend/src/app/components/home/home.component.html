@@ -1,3 +1,8 @@
+<a mat-raised-button class="new-post-button" color="primary" [routerLink]="'/' + createPostPath">
+	<span>New post</span>
+	<mat-icon class="add-icon">add</mat-icon>
+</a>
+
 <ng-container *ngIf="{ posts: posts$ | async, profiles: profiles$ | async } as data">
 	<mat-card *ngFor="let post of data.posts" class="container">
 		<ng-container *ngIf="data.profiles?.[post.userId] as profile">
