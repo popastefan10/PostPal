@@ -16,10 +16,6 @@ export class TestComponent {
 		private readonly userService: UserService,
 	) { }
 
-	public getAllPosts(): void {
-		this.postService.getAll().pipe(tap(console.log)).subscribe();
-	}
-
 	// USER TESTS
 	public banUserId: string = '';
 	public banUser(): void {
@@ -60,5 +56,45 @@ export class TestComponent {
 	public profilesIds: string = '';
 	public getProfilesByIds(): void {
 		this.profileService.getByIds(this.profilesIds.split(',')).pipe(tap(console.log)).subscribe();
+	}
+
+	// POSTS TESTS
+	public likePostId: string = '';
+	public likePost(): void {
+		this.postService.like(this.likePostId).pipe(tap(console.log)).subscribe();
+	}
+
+	public removeLikePostId: string = '';
+	public removeLikePost(): void {
+		this.postService.removeLike(this.removeLikePostId).pipe(tap(console.log)).subscribe();
+	}
+
+	public getAllPosts(): void {
+		this.postService.getAll().pipe(tap(console.log)).subscribe();
+	}
+
+	public postId: string = '';
+	public getPostById(): void {
+		this.postService.getById(this.postId).pipe(tap(console.log)).subscribe();
+	}
+
+	public getLikesProfilesPostId: string = '';
+	public getLikesProfilesByPostId(): void {
+		this.postService.getLikesProfiles(this.getLikesProfilesPostId).pipe(tap(console.log)).subscribe();
+	}
+
+	public getLikesCountPostId: string = '';
+	public getLikesCountByPostId(): void {
+		this.postService.getLikesCount(this.getLikesCountPostId).pipe(tap(console.log)).subscribe();
+	}
+
+	public getCommentsWithProfilesPostId: string = '';
+	public getCommentsWithProfilesByPostId(): void {
+		this.postService.getCommentsWithProfiles(this.getCommentsWithProfilesPostId).pipe(tap(console.log)).subscribe();
+	}
+
+	public getCommentsCountPostId: string = '';
+	public getCommentsCountByPostId(): void {
+		this.postService.getCommentsCount(this.getCommentsCountPostId).pipe(tap(console.log)).subscribe();
 	}
 }

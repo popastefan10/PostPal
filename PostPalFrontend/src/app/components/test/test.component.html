@@ -30,6 +30,28 @@
 
 <div class="endpoints">
 	<p class="controller-name">Posts endpoints</p>
+
+	<input class="endpoint-field" type="text" [(ngModel)]="likePostId" placeholder="Post id">
+	<button class="endpoint" (click)="likePost()">Like post</button>
+
+	<input class="endpoint-field" type="text" [(ngModel)]="removeLikePostId" placeholder="Post id">
+	<button class="endpoint" (click)="removeLikePost()">Remove like post</button>
+
 	<button class="endpoint" (click)="getAllPosts()">Get all posts</button>
+
+	<input class="endpoint-field" type="text" [(ngModel)]="postId" placeholder="Post id">
+	<button class="endpoint" (click)="getPostById()">Get post by id</button>
+
+	<input class="endpoint-field" type="text" [(ngModel)]="getLikesProfilesPostId" placeholder="Post id">
+	<button class="endpoint" (click)="getLikesProfilesByPostId()">Get likes profiles by post id</button>
+
+	<input class="endpoint-field" type="text" [(ngModel)]="getLikesCountPostId" placeholder="Post id">
+	<button class="endpoint" (click)="getLikesCountByPostId()">Get likes count by post id</button>
+
+	<input class="endpoint-field" type="text" [(ngModel)]="getCommentsWithProfilesPostId" placeholder="Post id">
+	<button class="endpoint" (click)="getCommentsWithProfilesByPostId()">Get comments with profiles by post id</button>
+
+	<input class="endpoint-field" type="text" [(ngModel)]="getCommentsCountPostId" placeholder="Post id">
+	<button class="endpoint" (click)="getCommentsCountByPostId()">Get comments count by post id</button>
 </div>
 

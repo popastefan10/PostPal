@@ -19,7 +19,7 @@ import { ApiService } from './api.service';
 export class UserService extends SubscriptionCleanup {
 	private readonly route = 'users';
 
-	private readonly isLoggedInSubject = new BehaviorSubject<boolean>(getToken() !== null);
+	private readonly isLoggedInSubject = new BehaviorSubject<boolean>(false);
 	public readonly isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
 	private readonly currentUserSubject = new BehaviorSubject<User | null>(null);
@@ -27,6 +27,8 @@ export class UserService extends SubscriptionCleanup {
 
 	constructor(private readonly apiService: ApiService) {
 		super();
+
+		this.isMyTokenValid().pipe(tap(isValid => this.isLoggedInSubject.next(isValid))).subscribe();
 
 		this.isLoggedIn$.pipe(takeUntil(this.destroyed$)).subscribe(isLoggedIn => {
 			if (isLoggedIn) {
