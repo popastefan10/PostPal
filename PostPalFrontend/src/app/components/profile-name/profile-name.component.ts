@@ -8,12 +8,12 @@ import { UserProfile } from '../../models/interfaces/user-profile';
   styleUrls: ['./profile-name.component.scss']
 })
 export class ProfileNameComponent implements OnInit {
-	@Input() profile!: UserProfile;
+	@Input() profile: UserProfile | undefined;
 	public get profileName(): string {
-		return this.profile.firstName + ' ' + this.profile.lastName;
+		return this.profile?.firstName + ' ' + this.profile?.lastName;
 	}
 	public get profilePath(): string {
-		return '/' + RoutePaths.profile + '/' + this.profile.id;
+		return '/' + RoutePaths.profile + '/' + this.profile?.id;
 	}
 
   constructor() { }

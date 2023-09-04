@@ -1,0 +1,34 @@
+<div class="comments-container"
+		 *ngIf="{ comments: allComments$ | async, profiles: profiles$ | async, isLoggedIn: isLoggedIn$ | async } as data">
+	<div class="comment-container" *ngIf="post && post.description">
+		<pal-profile-picture *ngIf="profile" [profile]="profile"></pal-profile-picture>
+		<div class="name-and-content">
+			<div class="name-and-date">
+				<div class="name-with-icon">
+					<pal-profile-name *ngIf="profile" [profile]="profile"></pal-profile-name>
+					<mat-icon class="author-icon">description</mat-icon>
+				</div>
+				<span class="date">{{ post.dateCreated | dateAgo }}</span>
+			</div>
+			<span class="content">{{ post.description }}</span>
+		</div>
+	</div>
+
+	<div *ngFor="let comment of data.comments" class="comment-container">
+		<pal-profile-picture *ngIf="data.profiles?.[comment.userId]" [profile]="data.profiles?.[comment.userId]"></pal-profile-picture>
+		<div class="name-and-content">
+			<div class="name-and-date">
+				<pal-profile-name *ngIf="data.profiles?.[comment.userId]" [profile]="data.profiles?.[comment.userId]"></pal-profile-name>
+				<span class="date">{{ comment.dateCreated | dateAgo }}</span>
+			</div>
+			<span class="content">{{ comment.content }}</span>
+		</div>
+	</div>
+
+	<div *ngIf="data.isLoggedIn" class="add-comment-container">
+		<input class="add-comment-input" type="text" placeholder="Write something..." [(ngModel)]="newComment" />
+		<button mat-icon-button class="add-comment-button" (click)="addComment()">
+			<mat-icon class="add-comment-icon" color="primary">send</mat-icon>
+		</button>
+	</div>
+</div>

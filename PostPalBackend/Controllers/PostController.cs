@@ -87,7 +87,7 @@ namespace PostPalBackend.Controllers
 			return new CommentsWithProfilesResponseDTO
 			{
 				Comments = comments.Select(_mapper.Map<CommentResponseDTO>).ToList(),
-				Profiles = comments.Select(c => c.User.Profile).Distinct().Select(_mapper.Map<UserProfile>).ToDictionary(p => p.Id)
+				Profiles = comments.Select(c => c.User.Profile).Distinct().Select(_mapper.Map<UserProfile>).ToDictionary(p => p.UserId)
 			};
 		}
 

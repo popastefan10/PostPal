@@ -8,7 +8,7 @@ import { UserProfile } from '../../models/interfaces/user-profile';
 	styleUrls: ['./profile-picture.component.scss']
 })
 export class ProfilePictureComponent implements OnInit {
-	@Input() public profile: UserProfile | undefined;
+	@Input() public profile: UserProfile | undefined | null;
 	@Input() public sizeInPixels: number = 32;
 	@HostBinding('style.--picture-size') get pictureSizeInPixels(): string {
 		return this.sizeInPixels + 'px';

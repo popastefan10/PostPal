@@ -4,7 +4,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 	name: 'dateAgo'
 })
 export class DateAgoPipe implements PipeTransform {
-	transform(value: string): string {
+	transform(value: string | undefined): string | undefined {
+		if (!value) {
+			return undefined;
+		}
+
 		const date = new Date(value);
 		const now = new Date();
 		const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);

@@ -31,12 +31,17 @@ export class UserService extends SubscriptionCleanup {
 		this.isMyTokenValid().pipe(tap(isValid => this.isLoggedInSubject.next(isValid))).subscribe();
 
 		this.isLoggedIn$.pipe(takeUntil(this.destroyed$)).subscribe(isLoggedIn => {
+			console.log(`User is logged in: ${isLoggedIn}`);
 			if (isLoggedIn) {
 				this.getMe().subscribe();
 			} else {
 				this.currentUserSubject.next(null);
 			}
 		});
+	}
+
+	public get currentUser(): User | null {
+		return this.currentUserSubject.value;
 	}
 
 	public register(dto: UserRegisterRequestDto): Observable<UserRegisterResponseDto> {

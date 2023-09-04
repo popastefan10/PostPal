@@ -7,7 +7,10 @@
 		</div>
 	</mat-card-header>
 
-	<mat-card-content class="content" *ngIf="data.post">
+	<mat-card-content class="content" *ngIf="data.post && data.profile">
 		<pal-post-images class="post-images" [post]="data.post"></pal-post-images>
+		<div class="comments-and-actions">
+			<pal-post-comments class="comments" [post]="data.post" [profile]="data.profile"></pal-post-comments>
+		</div>
 	</mat-card-content>
 </mat-card>

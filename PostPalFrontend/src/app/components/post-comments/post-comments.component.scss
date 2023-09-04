@@ -1,0 +1,78 @@
+/// <reference path="../../../theme/colors" />
+@use "colors" as *;
+/// <reference path="../../../theme/mixins" />
+@use "mixins" as *;
+
+:host {
+	display: flex;
+	background-color: $body-bkg-color;
+}
+
+.comments-container {
+	display: flex;
+	flex-direction: column;
+	padding: 12px;
+}
+
+.comment-container {
+	@include floating-content;
+	display: flex;
+	flex-direction: row;
+	padding: 8px;
+	margin-bottom: 12px;
+	border-top-left-radius: 20px;
+}
+
+.name-and-content {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	width: 100%;
+	margin-left: 8px;
+
+	.name-and-date {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+
+		.name-with-icon {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+		}
+
+		.author-icon {
+			@include mat-icon(24px);
+		}
+
+		.date {
+			@include date-ago;
+		}
+	}
+}
+
+.add-comment-container {
+	@include floating-content;
+	display: flex;
+	flex-direction: row;
+	margin-top: auto;
+	padding: 8px;
+
+	.add-comment-input {
+		flex: 1;
+		border: none;
+		outline: none;
+	}
+
+	.add-comment-button {
+		$button-size: 24px;
+		@include icon-button($button-size);
+		margin-left: 8px;
+
+		.add-comment-icon {
+			@include mat-icon($button-size);
+		}
+	}
+}
