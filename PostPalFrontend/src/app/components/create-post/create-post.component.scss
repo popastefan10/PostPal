@@ -1,0 +1,143 @@
+/// <reference path="../../../theme/colors" />
+@use "colors" as *;
+/// <reference path="../../../theme/mixins" />
+@use "mixins" as *;
+
+:host {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	background-color: $body-bkg-color;
+	@include inner-top-shadow;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0;
+	@include floating-content;
+}
+
+.header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	padding: 16px 0;
+	border-bottom: 1px solid $primary-800;
+
+	.title {
+		color: $primary-900;
+		margin: 0;
+		text-align: center;
+	}
+}
+
+.content {
+	$hpadding: 32px;
+	$vpadding: 32px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	width: calc(100% - 2 * $hpadding);
+	padding: $vpadding $hpadding;
+}
+
+.create-post-form {
+	width: 100%;
+
+	.create-post-form-field {
+		width: 100%;
+		max-width: 240px;
+	}
+
+	.create-post-form-field:not(:last-child) {
+		margin-bottom: 8px;
+	}
+
+	.create-post-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: 32px;
+		margin-left: auto;
+		margin-right: auto;
+		width: 112px;
+	}
+}
+
+.images-header {
+}
+
+$image-size: 64px;
+$images-gap: 8px;
+$images-on-row: 5;
+
+.images-container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: $images-gap;
+	width: $images-on-row * ($image-size + $images-gap) - $images-gap;
+}
+
+.image-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	width: $image-size;
+	height: $image-size;
+	border-radius: 8px;
+
+	.image {
+		@include img-icon($image-size, 0);
+		object-fit: contain;
+		border-radius: inherit;
+	}
+
+	.overlay {
+		@include overlay;
+		border-radius: inherit;
+	}
+
+	.remove-image-button {
+		$button-size: 16px;
+		@include icon-button($button-size);
+		position: absolute;
+		z-index: 1;
+		top: 4px;
+		right: 4px;
+		opacity: 0;
+		transition: opacity 250ms linear;
+		background-color: $warn-400;
+		color: $pure-white;
+
+		mat-icon {
+			@include mat-icon($button-size);
+		}
+	}
+}
+
+.image-container:hover {
+	.overlay {
+		@include overlay-hover;
+	}
+
+	.remove-image-button {
+		opacity: 1;
+	}
+}
+
+.add-image-button {
+	color: $pure-white;
+}
+
+.image-input {
+	display: none;
+}

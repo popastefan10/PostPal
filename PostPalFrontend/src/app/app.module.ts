@@ -16,6 +16,7 @@ import { CreateProfileComponent } from './components/create-profile/create-profi
 import { ErrorsContainerComponent } from './components/errors/errors-container/errors-container.component';
 import { TestComponent } from './components/test/test.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { CreatePostComponent } from './components/create-post/create-post.component';
 
 @NgModule({
 	declarations: [
@@ -28,6 +29,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 		CreateProfileComponent,
 		TestComponent,
 		ProfileComponent,
+		CreatePostComponent,
 	],
 	imports: [
 		BrowserModule, HttpClientModule, BrowserAnimationsModule, AppRoutingModule, MaterialModule, SharedModule, JwtModule.forRoot({

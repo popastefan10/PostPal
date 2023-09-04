@@ -1,0 +1,44 @@
+<mat-card class="container"
+					*ngIf="{ uploadedImagesUrls: uploadedImagesUrls$ | async, canUpload: canUpload$ | async } as data">
+	<mat-card-header class="header">
+		<mat-card-title class="title">Create a new post</mat-card-title>
+	</mat-card-header>
+
+	<mat-card-content class="content">
+		<form class="create-post-form" [formGroup]="createPostForm" (submit)="onSubmit()">
+			<mat-form-field class="create-post-form-field">
+				<mat-label>Description</mat-label>
+				<textarea matInput type="text" formControlName="description" [rows]="3"></textarea>
+				<mat-error *ngIf="description.invalid">{{ description | formControlErrorMessage : description.errors }}</mat-error>
+			</mat-form-field>
+
+			<div class="images-field">
+				<p class="images-header">Post images</p>
+				<div class="images-container">
+					<div *ngFor="let url of data.uploadedImagesUrls; let index = index" class="image-container">
+						<img class="image" [src]="url" />
+						<div class="overlay"></div>
+						<button mat-mini-fab class="remove-image-button" color="accent" type="button" (click)="removeImage(index)">
+							<mat-icon>close</mat-icon>
+						</button>
+					</div>
+
+					<div *ngIf="data.canUpload" class="image-container">
+						<button mat-mini-fab class="add-image-button" color="accent" type="button" (click)="fileInput.click()">
+							<mat-icon>add</mat-icon>
+						</button>
+						<input #fileInput class="image-input" type="file" accept=".jpg,.jpeg,.png" (change)="onFileSelect($event) " />
+					</div>
+				</div>
+			</div>
+
+			<button mat-raised-button
+							color="primary"
+							class="create-post-button"
+							type="submit"
+							[disabled]="createPostForm.invalid">
+				Create
+			</button>
+		</form>
+	</mat-card-content>
+</mat-card>

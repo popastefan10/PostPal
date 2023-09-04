@@ -16,7 +16,11 @@ export class PostService {
 	constructor(private readonly apiService: ApiService) { }
 
 	public create(dto: PostCreateDto): Observable<Post> {
-		return this.apiService.post<Post, PostCreateDto>(`${this.route}`, dto);
+		const formData = new FormData();
+		formData.append('description', dto.description);
+		dto.images.forEach(image => formData.append('images', image));
+
+		return this.apiService.post<Post>(`${this.route}`, formData);
 	}
 
 	public like(id: string): Observable<void> {

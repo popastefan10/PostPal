@@ -9,6 +9,7 @@ import { HasProfileGuard } from './guards/has-profile.guard';
 import { DoesNotHaveProfileGuard } from './guards/does-not-have-profile.guard';
 import { ProfileComponent } from './components/profile/profile.component';
 import { IsLoggedInGuard } from './guards/is-logged-in.guard';
+import { CreatePostComponent } from './components/create-post/create-post.component';
 
 export const RoutePaths = {
 	home: '/',
@@ -17,8 +18,9 @@ export const RoutePaths = {
 	createProfile: 'create-profile',
 	myProfile: 'profile/me',
 	profile: 'profile',
+	createPost: 'create-post',
 	test: 'test'
-}
+};
 
 const routes: Routes = [
 	{ path: RoutePaths.login, component: LoginComponent },
@@ -26,15 +28,16 @@ const routes: Routes = [
 	{ path: RoutePaths.createProfile, component: CreateProfileComponent, canActivate: [IsLoggedInGuard, DoesNotHaveProfileGuard] },
 	{ path: RoutePaths.myProfile, component: ProfileComponent, canActivate: [IsLoggedInGuard, HasProfileGuard] },
 	{ path: RoutePaths.profile + '/:id', component: ProfileComponent },
+	{ path: RoutePaths.createPost, component: CreatePostComponent, canActivate: [IsLoggedInGuard] },
 	{ path: RoutePaths.test, component: TestComponent },
 	{ path: '', redirectTo: RoutePaths.home, pathMatch: 'full' },
 ];
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    RouterModule.forRoot(routes)
-  ]
+	declarations: [],
+	imports: [
+		CommonModule,
+		RouterModule.forRoot(routes)
+	]
 })
 export class AppRoutingModule { }
