@@ -1,0 +1,9 @@
+<mat-card class="container" *ngIf="{ post: post$ | async, profile: profile$ | async } as data">
+	<mat-card-header class="header" *ngIf="data.profile">
+		<pal-profile-picture [profile]="data.profile" [sizeInPixels]="40"></pal-profile-picture>
+		<div class="username-and-date">
+			<pal-profile-name class="username" [profile]="data.profile"></pal-profile-name>
+			<span class="date" *ngIf="data.post">{{ data.post.dateCreated | dateAgo }}</span>
+		</div>
+	</mat-card-header>
+</mat-card>

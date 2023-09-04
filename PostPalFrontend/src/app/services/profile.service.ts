@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, takeUntil, tap } from 'rxjs';
 import { ProfileCreateDto } from '../models/dtos/profile/profile-create.dto';
 import { ProfileUpdateDto } from '../models/dtos/profile/profile-update.dto';
+import { GetProfilesQueryType } from '../models/enums/get-profiles-query-type';
 import { UserProfile } from '../models/interfaces/user-profile';
 import { SubscriptionCleanup } from '../utils/subscription-cleanup';
 import { ApiService } from './api.service';
@@ -58,10 +59,18 @@ export class ProfileService extends SubscriptionCleanup {
 		return this.apiService.get<UserProfile>(`${this.route}/me`).pipe(tap(profile => this.currentProfileSubject.next(profile)));
 	}
 
+	public getById(id: string): Observable<UserProfile> {
+		return this.apiService.get<UserProfile>(`${this.route}/${id}?query-type=${GetProfilesQueryType.byId}`);
+	}
+
 	public getByIds(ids: string[]): Observable<UserProfile[]> {
 		const idsString = ids.join(',');
 
-		return this.apiService.get<UserProfile[]>(`${this.route}/${idsString}`);
+		return this.apiService.get<UserProfile[]>(`${this.route}/${idsString}?query-type=${GetProfilesQueryType.byIds}`);
+	}
+
+	public getByUserId(userId: string): Observable<UserProfile> {
+		return this.apiService.get<UserProfile>(`${this.route}/${userId}?query-type=${GetProfilesQueryType.byUserId}`);
 	}
 
 	public update(dto: ProfileUpdateDto): Observable<UserProfile> {

@@ -1,0 +1,44 @@
+/// <reference path="../../../theme/colors" />
+@use "colors" as *;
+/// <reference path="../../../theme/mixins" />
+@use "mixins" as *;
+
+:host {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	background-color: $body-bkg-color;
+	@include inner-top-shadow;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 300px;
+	padding: 0;
+	@include floating-content;
+}
+
+.header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	padding: 16px 0;
+	border-bottom: 1px solid $primary-800;
+
+	.username-and-date {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		height: 100%;
+		margin-left: 8px;
+
+		.username {
+			margin-top: 4px;
+		}
+	}
+}

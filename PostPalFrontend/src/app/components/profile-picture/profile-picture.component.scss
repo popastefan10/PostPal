@@ -1,0 +1,30 @@
+/// <reference path="../../../theme/colors" />
+@use "colors" as *;
+/// <reference path="../../../theme/mixins" />
+@use "mixins" as *;
+
+$picture-size: var(--picture-size);
+$border-size: 2px;
+$img-size: calc($picture-size - 2 * $border-size);
+
+.container {
+	width: $picture-size;
+	height: $picture-size;
+
+	.profile-link {
+		display: block;
+		width: $img-size;
+		height: $img-size;
+		border-radius: 50%;
+		border: 2px solid $primary;
+	}
+
+	.profile-picture {
+		@include img-icon($img-size);
+	}
+
+	.icon-picture {
+		@include mat-icon($img-size);
+		color: $pure-black;
+	}
+}

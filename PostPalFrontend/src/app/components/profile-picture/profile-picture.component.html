@@ -1,0 +1,6 @@
+<div class="container">
+	<a class="profile-link" [routerLink]="'/' + profilePath + '/' + profile?.id">
+		<img *ngIf="profile && profile.profilePictureUrl" class="profile-picture" [src]="profile.profilePictureUrl" />
+		<mat-icon *ngIf="!profile?.profilePictureUrl" class="icon-picture">person</mat-icon>
+	</a>
+</div>

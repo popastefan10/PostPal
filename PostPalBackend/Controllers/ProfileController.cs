@@ -10,6 +10,13 @@ using PostPalBackend.Services.ProfileService;
 
 namespace PostPalBackend.Controllers
 {
+	public enum GetProfilesQueryType
+	{
+		ById,
+		ByIds,
+		ByUserId
+	}
+
 	[ApiController]
 	[Route("api/profiles")]
 	public class ProfileController : ControllerBase
@@ -62,24 +69,54 @@ namespace PostPalBackend.Controllers
 			return profile;
 		}
 
-		[HttpGet("{idsString}")]
-		public List<UserProfile> GetByIds([FromRoute] string idsString)
+		[HttpGet("{query}")]
+		public IActionResult GetByIds([FromRoute] string query, [FromQuery(Name = "query-type")] GetProfilesQueryType queryType)
 		{
-			Guid[] ids = idsString.Split(',').Select(id =>
+			switch (queryType)
 			{
-				try
-				{
-					return Guid.Parse(id);
-				}
-				catch
-				{
-					throw new ProjectException(ProjectStatusCodes.Http400BadRequest, "Invalid id format.");
-				}
+				case GetProfilesQueryType.ById:
+					Guid id = Guid.Empty;
+					try
+					{
+						id = Guid.Parse(query);
 
-			}).ToArray();
-			var profiles = _profileService.GetByIds(ids);
+						return Ok(_profileService.GetById(id));
+					}
+					catch
+					{
+						throw new ProjectException(ProjectStatusCodes.Http400BadRequest, "Invalid id format.");
+					}
+				case GetProfilesQueryType.ByIds:
+					Guid[] ids = query.Split(',').Select(id =>
+					{
+						try
+						{
+							return Guid.Parse(id);
+						}
+						catch
+						{
+							throw new ProjectException(ProjectStatusCodes.Http400BadRequest, "Invalid id format.");
+						}
+					}).ToArray();
+					var profiles = _profileService.GetByIds(ids);
 
-			return profiles;
+					return Ok(profiles);
+				case GetProfilesQueryType.ByUserId:
+					Guid userId = Guid.Empty;
+					try
+					{
+						userId = Guid.Parse(query);
+
+						return Ok(_profileService.GetByUserId(userId));
+					}
+					catch
+					{
+						throw new ProjectException(ProjectStatusCodes.Http400BadRequest, "Invalid id format.");
+					}
+				default:
+					throw new ProjectException(ProjectStatusCodes.Http400BadRequest, "Invalid query type.");
+			}
+
 		}
 
 		[HttpPatch("me")]

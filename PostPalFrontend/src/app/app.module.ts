@@ -17,6 +17,10 @@ import { ErrorsContainerComponent } from './components/errors/errors-container/e
 import { TestComponent } from './components/test/test.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
+import { PostComponent } from './components/post/post.component';
+import { ProfilePictureComponent } from './components/profile-picture/profile-picture.component';
+import { ProfileNameComponent } from './components/profile-name/profile-name.component';
+import { DateAgoPipe } from './pipes/date-ago.pipe';
 
 @NgModule({
 	declarations: [
@@ -30,6 +34,10 @@ import { CreatePostComponent } from './components/create-post/create-post.compon
 		TestComponent,
 		ProfileComponent,
 		CreatePostComponent,
+		PostComponent,
+		ProfilePictureComponent,
+		ProfileNameComponent,
+		DateAgoPipe,
 	],
 	imports: [
 		BrowserModule, HttpClientModule, BrowserAnimationsModule, AppRoutingModule, MaterialModule, SharedModule, JwtModule.forRoot({

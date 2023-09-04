@@ -6,8 +6,8 @@ const deserializeBaseEntity = (entity: BaseEntity): BaseEntity => {
 
 	return {
 		id,
-		dateCreated: new Date(dateCreated),
-		dateModified: new Date(dateModified),
+		dateCreated,
+		dateModified,
 		...rest
 	};
 };

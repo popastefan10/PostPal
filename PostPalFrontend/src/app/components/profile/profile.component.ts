@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { filter, map, Observable, startWith, switchMap } from 'rxjs';
+import { catchError, filter, map, Observable, of, startWith, switchMap } from 'rxjs';
 import { UserProfile } from '../../models/interfaces/user-profile';
 import { ProfileService } from '../../services/profile.service';
 
@@ -24,7 +24,7 @@ export class ProfileComponent implements OnInit {
 				switchMap(
 					id => id === null
 						? this.profileService.getMe()
-						: this.profileService.getByIds([id!]).pipe(map(profiles => profiles[0] || null))
+						: this.profileService.getById(id!).pipe(catchError((error) => of(null)))
 				),
 			);
 
