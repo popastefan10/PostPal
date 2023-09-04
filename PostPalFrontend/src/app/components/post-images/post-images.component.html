@@ -1,0 +1,16 @@
+<div class="images-container"
+		 *ngIf="{
+	currentIndex: currentIndex$ | async,
+	previousVisible: previousVisible$ | async,
+	nextVisible: nextVisible$ | async
+} as data">
+	<div class="image-container" *ngFor="let url of post.imagesUrls; let index = index">
+		<img class="image" [class.active]="index === data.currentIndex" [src]="url" />
+	</div>
+	<button *ngIf="data.previousVisible" mat-icon-button class="image-button previous" (click)="onPreviousPressed()">
+		<mat-icon>chevron_left</mat-icon>
+	</button>
+	<button *ngIf="data.nextVisible" mat-icon-button class="image-button next" (click)="onNextPressed()">
+		<mat-icon>chevron_right</mat-icon>
+	</button>
+</div>

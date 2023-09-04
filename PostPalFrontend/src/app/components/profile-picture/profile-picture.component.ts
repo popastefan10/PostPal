@@ -17,7 +17,5 @@ export class ProfilePictureComponent implements OnInit {
 
 	constructor() { }
 
-	ngOnInit(): void {
-		console.log('from profile picture', this.profile);
-	}
+	ngOnInit(): void { }
 }

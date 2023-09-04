@@ -21,6 +21,7 @@ import { PostComponent } from './components/post/post.component';
 import { ProfilePictureComponent } from './components/profile-picture/profile-picture.component';
 import { ProfileNameComponent } from './components/profile-name/profile-name.component';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
+import { PostImagesComponent } from './components/post-images/post-images.component';
 
 @NgModule({
 	declarations: [
@@ -38,6 +39,7 @@ import { DateAgoPipe } from './pipes/date-ago.pipe';
 		ProfilePictureComponent,
 		ProfileNameComponent,
 		DateAgoPipe,
+		PostImagesComponent,
 	],
 	imports: [
 		BrowserModule, HttpClientModule, BrowserAnimationsModule, AppRoutingModule, MaterialModule, SharedModule, JwtModule.forRoot({

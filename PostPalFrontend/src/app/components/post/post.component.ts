@@ -27,8 +27,5 @@ export class PostComponent implements OnInit {
 		private readonly profileService: ProfileService
 	) { }
 
-	ngOnInit(): void {
-		this.post$.subscribe(console.log);
-		this.profile$.subscribe(console.log);
-	}
+	ngOnInit(): void { }
 }

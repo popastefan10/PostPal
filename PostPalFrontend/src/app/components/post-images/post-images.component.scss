@@ -1,0 +1,56 @@
+/// <reference path="../../../theme/colors" />
+@use "colors" as *;
+/// <reference path="../../../theme/mixins" />
+@use "mixins" as *;
+
+:host {
+	display: block;
+	height: 100px;
+}
+
+.images-container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.image-container {
+	position: absolute;
+	display: flex;
+	height: 100%;
+	width: 100%;
+
+	.image {
+		height: 100%;
+		width: 100%;
+		object-fit: contain;
+		opacity: 0;
+
+		&.active {
+			opacity: 1;
+		}
+	}
+}
+
+.image-button {
+	$button-size: 24px;
+	@include icon-button($button-size);
+	position: absolute;
+	top: calc(50% - calc($button-size / 2));
+	background-color: rgba($gray-100, 0.5);
+	cursor: pointer;
+
+	mat-icon {
+		@include mat-icon($button-size);
+	}
+
+	$horizontal-margin: 8px;
+
+	&.previous {
+		left: $horizontal-margin;
+	}
+
+	&.next {
+		right: $horizontal-margin;
+	}
+}
